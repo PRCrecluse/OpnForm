@@ -1,0 +1,26 @@
+# syntax=docker/dockerfile:1
+FROM node:24.22.1-bookworm-slim AS build
+WORKDIR /app
+
+# better-sqlite3 can compile a native addon during npm ci.
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends python3 make g++ \
+ && rm -rf /var/lib/apt/lists/*
+COPY client/package.json client/package-lock.json ./
+RUN npm ci --no-audit --no-fund
+COPY client/ ./
+
+ARG RAILWAY_GIT_COMMIT_SHA
+ARG SOURCE_COMMIT
+ENV NODE_ENV=production NUXT_TELEMETRY_DISABLED=1 NODE_OPTIONS=--max-old-space-size=4096 NUXT_BUILD_CONCURRENCY=1
+RUN printf '{"revision":"%s"}\n' "${SOURCE_COMMIT:-${RAILWAY_GIT_COMMIT_SHA:-local}}" > public/release.json \
+ && npm run build
+
+FROM node:24.22.1-bookworm-slim AS production
+ENV NODE_ENV=production NITRO_HOST=0.0.0.0 NITRO_PORT=3000
+WORKDIR /app
+COPY --from=build --chown=node:node /app/.output/ ./
+USER node
+EXPOSE 3000
+STOPSIGNAL SIGTERM
+CMD ["node", "/app/server/index.mjs"]

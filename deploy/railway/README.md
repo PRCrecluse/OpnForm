@@ -4,7 +4,7 @@ Use one project environment with PostgreSQL, Redis, an `api` service and a `web`
 
 | Service setting | API | Web |
 | --- | --- | --- |
-| Dockerfile path | `/deploy/railway/Dockerfile.api` | `/docker/Dockerfile.client` |
+| Dockerfile path | `/deploy/railway/Dockerfile.api` | `/deploy/railway/Dockerfile.client` |
 | Port | `8080` | `3000` |
 | Healthcheck path | `/healthz` | `/login` |
 

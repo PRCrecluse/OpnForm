@@ -61,16 +61,15 @@ class SubscriptionController extends Controller
                 ]);
             }
 
-            // Get the pricing for this plan
-            $pricingConfig = BillingHelper::getPricing($pricing);
-            if (!$pricingConfig || !isset($pricingConfig[$plan])) {
+            $priceId = BillingHelper::getCheckoutPriceId($pricing, $plan);
+            if ($priceId === null) {
                 return $this->error([
-                    'message' => 'Invalid pricing plan selected.',
-                ]);
+                    'message' => 'Checkout is unavailable for this plan.',
+                ], 503);
             }
 
             $checkoutBuilder = $user
-                ->newSubscription($pricing, $pricingConfig[$plan])
+                ->newSubscription($pricing, $priceId)
                 ->allowPromotionCodes();
 
             // Disable trial for now
@@ -83,6 +82,7 @@ class SubscriptionController extends Controller
                 ->checkout([
                     'success_url' => front_url('/subscriptions/success'),
                     'cancel_url' => front_url('/subscriptions/error'),
+                    'automatic_tax' => ['enabled' => (bool) config('cashier.automatic_tax')],
                     'billing_address_collection' => 'required',
                     'customer_update' => [
                         'address' => 'auto',
@@ -135,8 +135,11 @@ class SubscriptionController extends Controller
             ]);
         }
 
+        $configuration = config('cashier.billing_portal_configuration_id');
+        $options = filled($configuration) ? ['configuration' => $configuration] : [];
+
         return $this->success([
-            'portal_url' => Auth::user()->billingPortalUrl(front_url('/home')),
+            'portal_url' => Auth::user()->billingPortalUrl(front_url('/home'), $options),
         ]);
     }
 
@@ -162,14 +165,12 @@ class SubscriptionController extends Controller
         $targetPlan = $request->input('plan');
         $targetInterval = $request->input('interval');
 
-        $pricingConfig = BillingHelper::getPricing($targetPlan);
-        if (!$pricingConfig || !isset($pricingConfig[$targetInterval])) {
+        $newPriceId = BillingHelper::getCheckoutPriceId($targetPlan, $targetInterval);
+        if ($newPriceId === null) {
             return $this->error([
-                'message' => 'Invalid pricing plan selected.',
-            ]);
+                'message' => 'This plan is unavailable.',
+            ], 503);
         }
-
-        $newPriceId = $pricingConfig[$targetInterval];
 
         try {
             $subscription->swap($newPriceId);

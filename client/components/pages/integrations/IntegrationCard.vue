@@ -13,9 +13,18 @@
     <div class="flex items-start gap-3">
       <div
         class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
-        :class="[colorClasses.iconBg, colorClasses.iconText]"
+        :class="integration.logo ? 'border border-neutral-200 bg-white' : [colorClasses.iconBg, colorClasses.iconText]"
       >
+        <img
+          v-if="integration.logo"
+          :src="integration.logo"
+          alt=""
+          width="24"
+          height="24"
+          class="size-6 object-contain"
+        >
         <UIcon
+          v-else
           :name="integration.icon"
           class="h-5 w-5"
         />

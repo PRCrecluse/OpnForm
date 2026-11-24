@@ -10,6 +10,9 @@ it('returns feature flags', function () {
     Config::set('custom-domains.enabled', true);
     Config::set('cashier.key', 'stripe_key');
     Config::set('cashier.secret', 'stripe_secret');
+    Config::set('cashier.webhook.secret', 'stripe_webhook_secret');
+    Config::set('pricing.test.pro.product_id', 'prod_pro');
+    Config::set('pricing.test.pro.pricing.monthly', 'price_pro_monthly');
     Config::set('services.appsumo.api_key', 'appsumo_key');
     Config::set('services.appsumo.api_secret', 'appsumo_secret');
     Config::set('filesystems.default', 's3');
@@ -31,6 +34,10 @@ it('returns feature flags', function () {
             'ai_features' => true,
             'billing' => [
                 'enabled' => true,
+                'checkout_plans' => [
+                    'pro' => ['monthly' => true, 'yearly' => false],
+                    'self_hosted' => ['monthly' => false, 'yearly' => false],
+                ],
                 'appsumo' => true,
             ],
             'storage' => [

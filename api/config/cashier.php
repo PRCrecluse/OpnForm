@@ -17,6 +17,10 @@ return [
 
     'secret' => env('STRIPE_SECRET'),
 
+    'automatic_tax' => env('STRIPE_AUTOMATIC_TAX', false),
+
+    'billing_portal_configuration_id' => env('STRIPE_BILLING_PORTAL_CONFIGURATION_ID'),
+
     /*
     |--------------------------------------------------------------------------
     | Cashier Path

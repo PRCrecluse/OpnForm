@@ -171,3 +171,23 @@ it('blocks checkout while another checkout creation is already in progress', fun
         $lock->release();
     }
 });
+
+it('requires signed Stripe webhooks before creating a checkout session', function () {
+    config([
+        'cashier.key' => 'stripe_publishable_key',
+        'cashier.secret' => 'stripe_private_key',
+        'cashier.webhook.secret' => null,
+        'pricing.test.pro.product_id' => 'prod_pro',
+        'pricing.test.pro.pricing.monthly' => 'price_pro_monthly',
+    ]);
+
+    $this->actingAsUser($this->createUser());
+
+    $this->getJson(route('subscription.checkout', [
+        'subscription' => 'pro',
+        'plan' => 'monthly',
+    ]))->assertStatus(503)->assertJson([
+        'type' => 'error',
+        'message' => 'Checkout is unavailable for this plan.',
+    ]);
+});

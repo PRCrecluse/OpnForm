@@ -90,7 +90,10 @@
                         per month
                       </div>
                       <div class="mt-0.5 text-[11px] leading-4 text-slate-400">
-                        {{ isYearly ? 'billed yearly' : 'billed monthly' }}
+                        <template v-if="isYearly">
+                          {{ planOption.billedTotal != null ? `$${planOption.billedTotal.toLocaleString('en-US')} yearly` : 'billed yearly' }}
+                        </template>
+                        <template v-else>billed monthly</template>
                       </div>
                     </div>
                   </div>
@@ -136,10 +139,10 @@
                         :variant="planOption.isRequired ? 'solid' : 'outline'"
                         class="h-12 rounded-2xl font-semibold"
                         :loading="planOption.key === 'self_hosted' ? loading : isPlanLoading(planOption.key)"
-                        :disabled="checkoutLoading || loading"
+                        :disabled="checkoutLoading || loading || (!isSelfHosted && !canStartCheckout(planOption.key, isYearly))"
                         @click.prevent="startCheckout(planOption.key)"
                       >
-                      {{ planOption.buttonLabel }}
+                      {{ isSelfHosted || canStartCheckout(planOption.key, isYearly) ? planOption.buttonLabel : 'Checkout unavailable' }}
                     </UButton>
                   </TrackClick>
 
@@ -371,8 +374,8 @@ const loading = ref(false)
 const billingLoading = ref(false)
 const { isAuthenticated: authenticated } = useIsAuthenticated()
 const { data: user } = useAuth().user()
-const { getPlanPrice, userIsSubscribed, currentUserTier, tierMeetsRequirement, getTierDisplayName } = useBillingUpsell()
-const { startCheckout: openStripeCheckout, isLoading: checkoutLoading, isPlanLoading } = useStripeCheckout()
+const { getPlanPrice, getBilledPlanTotal, userIsSubscribed, currentUserTier, tierMeetsRequirement, getTierDisplayName } = useBillingUpsell()
+const { startCheckout: openStripeCheckout, isLoading: checkoutLoading, isPlanLoading, canStartCheckout } = useStripeCheckout()
 const isSubscribed = computed(() => userIsSubscribed.value)
 
 const selectedPlanName = computed(() => getTierDisplayName(currentPlan.value))
@@ -396,6 +399,7 @@ const planOptions = computed(() => {
       key: planKey,
       label: getTierDisplayName(planKey),
       price: getPlanPrice(planKey, isYearly.value),
+      billedTotal: getBilledPlanTotal(planKey, isYearly.value),
       monthlyPrice: getPlanPrice(planKey, false),
       subtitle: details.subtitle,
       highlights: details.highlights,
@@ -497,14 +501,13 @@ const startSelfHostedLicenseCheckout = () => {
 }
 
 const startCheckout = async (planName) => {
-  if (!authenticated.value) {
-    closeModal()
-    router.push({ name: 'register' })
-    return
-  }
-
   if (isSelfHosted.value) {
-    startSelfHostedLicenseCheckout()
+    if (authenticated.value) {
+      startSelfHostedLicenseCheckout()
+    } else {
+      closeModal()
+      router.push({ name: 'register' })
+    }
     return
   }
 
@@ -514,7 +517,6 @@ const startCheckout = async (planName) => {
     await openStripeCheckout(planName, {
       yearly: isYearly.value,
       closeModal,
-      redirectToRegister: false,
     })
   } catch {
     loading.value = false

@@ -13,9 +13,9 @@ return [
      */
     'tiers' => [
         'free' => ['order' => 0, 'name' => 'Free', 'price_monthly' => 0, 'price_yearly' => 0, 'price_yearly_per_month' => 0],
-        'pro' => ['order' => 1, 'name' => 'Pro', 'price_monthly' => 29, 'price_yearly' => 299, 'price_yearly_per_month' => 25],
-        'business' => ['order' => 2, 'name' => 'Business', 'price_monthly' => 79, 'price_yearly' => 799, 'price_yearly_per_month' => 67],
-        'enterprise' => ['order' => 3, 'name' => 'Enterprise', 'price_monthly' => 250, 'price_yearly' => 2640, 'price_yearly_per_month' => 220],
+        'pro' => ['order' => 1, 'name' => 'Pro', 'price_monthly' => 27, 'price_yearly' => 288, 'price_yearly_per_month' => 24],
+        'business' => ['order' => 2, 'name' => 'Business', 'price_monthly' => 75, 'price_yearly' => 768, 'price_yearly_per_month' => 64],
+        'enterprise' => ['order' => 3, 'name' => 'Enterprise', 'price_monthly' => 239, 'price_yearly' => 2520, 'price_yearly_per_month' => 210],
         'self_hosted' => ['order' => 4, 'name' => 'Self-hosted Enterprise', 'price_monthly' => 199, 'price_yearly' => 1999, 'price_yearly_per_month' => 167],
     ],
 

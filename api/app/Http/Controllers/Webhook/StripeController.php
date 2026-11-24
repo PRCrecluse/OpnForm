@@ -6,6 +6,7 @@ use App\Models\LicenseKey;
 use App\Notifications\Subscription\FailedPaymentNotification;
 use App\Service\BillingHelper;
 use App\Service\License\LicenseKeyService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Http\Controllers\WebhookController;
@@ -13,6 +14,14 @@ use Stripe\Subscription as StripeSubscription;
 
 class StripeController extends WebhookController
 {
+    public function handleWebhook(Request $request)
+    {
+        // Cashier only installs its signature middleware when a signing secret is present.
+        abort_unless(filled(config('cashier.webhook.secret')), 503);
+
+        return parent::handleWebhook($request);
+    }
+
     public function handleCustomerSubscriptionCreated(array $payload)
     {
         return parent::handleCustomerSubscriptionCreated($payload);
@@ -125,9 +134,10 @@ class StripeController extends WebhookController
             // Cancellation date...
             if (isset($data['cancel_at_period_end'])) {
                 if ($data['cancel_at_period_end']) {
+                    $periodEnd = $mainItem['current_period_end'] ?? $data['current_period_end'] ?? $data['cancel_at'] ?? null;
                     $subscription->ends_at = $subscription->onTrial()
                         ? $subscription->trial_ends_at
-                        : Carbon::createFromTimestamp($data['current_period_end']);
+                        : ($periodEnd !== null ? Carbon::createFromTimestamp($periodEnd) : $subscription->ends_at);
                 } elseif (isset($data['cancel_at'])) {
                     $subscription->ends_at = Carbon::createFromTimestamp($data['cancel_at']);
                 } else {
@@ -173,6 +183,11 @@ class StripeController extends WebhookController
         }
 
         return $this->successMethod();
+    }
+
+    protected function handleInvoicePaymentFailed(array $payload)
+    {
+        return $this->handleChargeFailed($payload);
     }
 
     private function getMainSubscriptionLineItem(array $items)

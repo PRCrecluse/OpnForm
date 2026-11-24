@@ -35,16 +35,21 @@
         </div>
 
         <div class="flex justify-center xl:justify-end">
-          <div class="grid w-full max-w-sm grid-cols-5 gap-2 sm:gap-3">
+          <div class="grid w-full max-w-sm grid-cols-4 gap-2 sm:grid-cols-6 sm:gap-3 lg:grid-cols-4 xl:grid-cols-6">
             <div
-              v-for="app in integrationApps"
-              :key="app"
-              class="grid aspect-square place-items-center rounded-md border border-white/15 bg-white/5"
+              v-for="[slug, name] in integrationApps"
+              :key="slug"
+              class="grid aspect-square place-items-center rounded-md bg-white"
             >
-              <UIcon
-                :name="app"
-                class="size-5 text-neutral-200 sm:size-7"
-              />
+              <img
+                :src="getIntegrationLogo(slug)"
+                :alt="name"
+                width="28"
+                height="28"
+                class="size-6 object-contain sm:size-7"
+                loading="lazy"
+                decoding="async"
+              >
             </div>
           </div>
         </div>
@@ -54,21 +59,20 @@
 </template>
 
 <script setup>
+import { getIntegrationLogo } from '~/lib/integrations.js'
+
 const integrationApps = [
-  "i-simple-icons-zendesk",
-  "heroicons:envelope-20-solid",
-  "ic:baseline-discord",
-  "mdi:telegram",
-  "material-symbols:webhook",
-  "i-simple-icons-zapier",
-  "simple-icons:n8n",
-  "opnform:activepieces",
-  "mdi:google-spreadsheet",
-  "i-simple-icons-zoom",
-  "i-simple-icons-linear",
-  "i-simple-icons-evernote",
-  "i-simple-icons-notion",
-  "i-simple-icons-airtable",
-  "i-simple-icons-meta",
+  ['slack', 'Slack'],
+  ['discord', 'Discord'],
+  ['telegram', 'Telegram'],
+  ['zapier', 'Zapier'],
+  ['make', 'Make'],
+  ['n8n', 'n8n'],
+  ['activepieces', 'Activepieces'],
+  ['pabbly', 'Pabbly Connect'],
+  ['albato', 'Albato'],
+  ['google-sheets', 'Google Sheets'],
+  ['stripe', 'Stripe'],
+  ['webhook', 'Webhook'],
 ]
 </script>

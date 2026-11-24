@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Content;
 
 use App\Http\Controllers\Controller;
+use App\Service\Billing\PlanTier;
+use App\Service\BillingHelper;
 use App\Service\License\LicenseService;
 use Illuminate\Support\Facades\Cache;
 
@@ -20,6 +22,7 @@ class FeatureFlagsController extends Controller
 
                 'billing' => [
                     'enabled' => !empty(config('cashier.key')) && !empty(config('cashier.secret')),
+                    'checkout_plans' => $this->getCheckoutPlans(),
                     'appsumo' => !empty(config('services.appsumo.api_key')) && !empty(config('services.appsumo.api_secret')),
                     'stripe_publishable_key' => config('cashier.key'),
                 ],
@@ -55,6 +58,20 @@ class FeatureFlagsController extends Controller
         });
 
         return response()->json($featureFlags);
+    }
+
+    private function getCheckoutPlans(): array
+    {
+        $checkoutPlans = [];
+
+        foreach ([PlanTier::PRO, PlanTier::BUSINESS, PlanTier::ENTERPRISE, PlanTier::SELF_HOSTED, 'default'] as $plan) {
+            $checkoutPlans[$plan] = [
+                'monthly' => BillingHelper::getCheckoutPriceId($plan, 'monthly') !== null,
+                'yearly' => BillingHelper::getCheckoutPriceId($plan, 'yearly') !== null,
+            ];
+        }
+
+        return $checkoutPlans;
     }
 
     /**

@@ -19,9 +19,18 @@
               <div class="relative mx-auto mb-8 inline-flex animate-integration-float">
                 <div
                   class="relative flex h-20 w-20 items-center justify-center rounded-[28px] shadow-lg ring-4 sm:h-24 sm:w-24"
-                  :class="[colorClasses.iconBg, colorClasses.iconText, colorClasses.ring]"
+                  :class="integration.logo ? 'bg-white ring-neutral-200/80' : [colorClasses.iconBg, colorClasses.iconText, colorClasses.ring]"
                 >
+                  <img
+                    v-if="integration.logo"
+                    :src="integration.logo"
+                    alt=""
+                    width="48"
+                    height="48"
+                    class="size-11 object-contain sm:size-12"
+                  >
                   <UIcon
+                    v-else
                     :name="integration.icon"
                     class="h-10 w-10 sm:h-11 sm:w-11"
                   />

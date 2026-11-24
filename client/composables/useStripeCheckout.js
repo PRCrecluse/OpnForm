@@ -7,12 +7,17 @@ export function useStripeCheckout() {
   const { userIsSubscribed } = useBillingUpsell()
   const { invalidateUser } = useAuth()
   const { invalidateAll: invalidateWorkspaces } = useWorkspaces()
+  const intendedUrl = useCookie('intended_url')
+  const checkoutPlans = computed(() => useFeatureFlag('billing.checkout_plans', {}))
 
   const loadingPlan = ref(null)
 
   const isLoading = computed(() => loadingPlan.value !== null)
 
   const isPlanLoading = (plan) => loadingPlan.value === plan
+
+  const canStartCheckout = (plan, yearly = true) =>
+    checkoutPlans.value?.[plan]?.[yearly ? 'yearly' : 'monthly'] === true
 
   const startCheckout = async (plan, options = {}) => {
     const {
@@ -28,12 +33,27 @@ export function useStripeCheckout() {
       throw new Error('Missing plan for checkout')
     }
 
+    if (!canStartCheckout(plan, yearly)) {
+      const message = 'Checkout is unavailable for this plan.'
+      useAlert().error(message)
+      throw new Error(message)
+    }
+
     if (!isAuthenticated.value) {
       if (typeof closeModal === 'function') {
         closeModal()
       }
 
       if (redirectToRegister) {
+        intendedUrl.value = router.resolve({
+          name: 'redirect-checkout',
+          query: {
+            plan,
+            yearly: String(yearly),
+            currency,
+            ...(trialDuration && { trial_duration: trialDuration }),
+          },
+        }).fullPath
         await router.push({ name: 'register' })
       }
       return null
@@ -110,6 +130,7 @@ export function useStripeCheckout() {
     loadingPlan: readonly(loadingPlan),
     isLoading,
     isPlanLoading,
+    canStartCheckout,
     startCheckout,
   }
 }

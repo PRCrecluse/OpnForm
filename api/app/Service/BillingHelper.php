@@ -24,6 +24,18 @@ class BillingHelper
             config('pricing.test.' . $productName . '.product_id');
     }
 
+    public static function getCheckoutPriceId(string $productName, string $interval): ?string
+    {
+        if (blank(config('cashier.key')) || blank(config('cashier.secret'))
+            || blank(config('cashier.webhook.secret')) || blank(self::getProductId($productName))) {
+            return null;
+        }
+
+        $priceId = self::getPricing($productName)[$interval] ?? null;
+
+        return is_string($priceId) && filled($priceId) ? $priceId : null;
+    }
+
     public static function getKnownPlanProductIds(): array
     {
         $mapping = config('billing_state.product_tier_mapping', []);

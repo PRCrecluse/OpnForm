@@ -36,6 +36,27 @@ const INTEGRATION_COLORS = {
   },
 }
 
+const INTEGRATION_LOGOS = {
+  activepieces: 'activepieces.svg',
+  albato: 'albato.png',
+  discord: 'discord.svg',
+  email: 'email.svg',
+  'google-sheets': 'google-sheets.svg',
+  make: 'make.svg',
+  n8n: 'n8n.svg',
+  pabbly: 'pabbly-connect.svg',
+  slack: 'slack.svg',
+  stripe: 'stripe.svg',
+  telegram: 'telegram.svg',
+  webhook: 'webhook.svg',
+  zapier: 'zapier.png',
+}
+
+export function getIntegrationLogo (slug) {
+  if (!Object.hasOwn(INTEGRATION_LOGOS, slug)) return null
+  return `/img/pages/integrations/logos/${INTEGRATION_LOGOS[slug]}`
+}
+
 export function getIntegrationColorClasses (color) {
   const key = String(color ?? 'blue').toLowerCase()
 
@@ -57,6 +78,7 @@ export function normalizeIntegration (integration) {
     ...integration,
     slug,
     summary: integration.summary ?? meta.summary ?? integration.description ?? '',
+    logo: getIntegrationLogo(slug),
     icon: integration.icon ?? meta.icon ?? 'i-heroicons-squares-plus',
     color: integration.color ?? meta.color ?? 'blue',
     order: Number(integration.order ?? meta.order ?? 999),

@@ -18,6 +18,9 @@ export function useBillingUpsell() {
     return yearly ? tier.price_yearly_per_month : tier.price_monthly
   }
 
+  const getBilledPlanTotal = (plan, yearly = true) =>
+    tiers.value[plan]?.[yearly ? 'price_yearly' : 'price_monthly'] ?? null
+
   const userCanAccessTier = (tier) => tierMeetsRequirement(currentUserTier.value, tier)
   const workspaceCanAccessTier = (tier) => tierMeetsRequirement(currentWorkspaceTier.value, tier)
   const userIsSubscribed = computed(() => userCanAccessTier('pro'))
@@ -29,6 +32,7 @@ export function useBillingUpsell() {
     tierMeetsRequirement,
     getTierDisplayName,
     getPlanPrice,
+    getBilledPlanTotal,
     userCanAccessTier,
     workspaceCanAccessTier,
     userIsSubscribed,

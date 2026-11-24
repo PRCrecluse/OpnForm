@@ -53,7 +53,9 @@ class AppServiceProvider extends ServiceProvider
         }
 
         JsonResource::withoutWrapping();
-        Cashier::calculateTaxes();
+        if (config('cashier.automatic_tax')) {
+            Cashier::calculateTaxes();
+        }
         Cashier::useSubscriptionModel(Subscription::class);
 
         if ($this->app->environment('testing')) {

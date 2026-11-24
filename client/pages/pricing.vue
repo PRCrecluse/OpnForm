@@ -198,12 +198,16 @@
                   >/mo</span
                 >
               </p>
+              <p v-if="getBilledPlanTotal('pro', pricingIsYearly) !== null" class="mt-1 text-sm text-neutral-600">
+                {{ billingPeriodLabel("pro") }}
+              </p>
             </div>
 
             <div class="mt-6 flex justify-center sm:block sm:justify-normal">
               <UButton
                 class="w-fit sm:w-full justify-center px-4 py-2.5 rounded-[12px] text-base leading-7 tracking-[-1.1%] font-medium"
-                label="Get started free"
+                :label="canStartCheckout('pro', pricingIsYearly) ? 'Choose Pro' : 'Checkout unavailable'"
+                :disabled="!canStartCheckout('pro', pricingIsYearly)"
                 @click.prevent="handleProCta"
               />
             </div>
@@ -353,13 +357,17 @@
                   >/mo</span
                 >
               </p>
+              <p v-if="getBilledPlanTotal('business', pricingIsYearly) !== null" class="mt-1 text-sm text-neutral-600">
+                {{ billingPeriodLabel("business") }}
+              </p>
             </div>
 
             <div class="mt-6 flex justify-center sm:block sm:justify-normal">
               <UButton
                 class="w-fit sm:w-full justify-center px-4 py-2.5 rounded-[12px] text-base leading-7 tracking-[-1.1%] font-medium"
                 variant="outline"
-                label="Get started free"
+                :label="canStartCheckout('business', pricingIsYearly) ? 'Choose Business' : 'Checkout unavailable'"
+                :disabled="!canStartCheckout('business', pricingIsYearly)"
                 color="neutral"
                 @click.prevent="handleBusinessCta"
               />
@@ -461,13 +469,17 @@
                   >/mo</span
                 >
               </p>
+              <p v-if="getBilledPlanTotal('enterprise', pricingIsYearly) !== null" class="mt-1 text-sm text-neutral-600">
+                {{ billingPeriodLabel("enterprise") }}
+              </p>
             </div>
 
             <div class="mt-6 flex justify-center sm:block sm:justify-normal">
               <UButton
                 class="w-fit sm:w-full justify-center px-4 py-2.5 rounded-[12px] text-base leading-7 tracking-[-1.1%] font-medium"
                 variant="outline"
-                label="Get started free"
+                :label="canStartCheckout('enterprise', pricingIsYearly) ? 'Choose Enterprise' : 'Checkout unavailable'"
+                :disabled="!canStartCheckout('enterprise', pricingIsYearly)"
                 color="neutral"
                 @click.prevent="handleEnterpriseCta"
               />
@@ -569,9 +581,11 @@
           <p
             class="mt-4 text-base font-normal tracking-[-1.1%] leading-7 text-gray-600"
           >
-            Self-host the core product for free. Upgrade to a self-hosted
-            Enterprise license when you need more users, advanced identity
-            controls, branding, and support.
+            Self-host the core product for free.
+            <template v-if="canStartCheckout('self_hosted')">
+              Upgrade to a self-hosted Enterprise license when you need more
+              users, advanced identity controls, branding, and support.
+            </template>
           </p>
         </div>
 
@@ -642,6 +656,7 @@
           </div>
 
           <div
+            v-if="canStartCheckout('self_hosted')"
             class="p-6 sm:p-8 bg-white border shadow-sm rounded-3xl border-gray-200"
           >
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -755,7 +770,8 @@ useOpnSeoMeta({
 
 const { openSubscriptionModal } = useAppModals()
 const { isAuthenticated: authenticated } = useIsAuthenticated()
-const { getPlanPrice } = useBillingUpsell()
+const { getPlanPrice, getBilledPlanTotal } = useBillingUpsell()
+const { canStartCheckout, startCheckout } = useStripeCheckout()
 
 const pricingIsYearly = ref(true)
 const displayedPlanPrices = ref({
@@ -777,9 +793,14 @@ function easeOutCubic(progress) {
 }
 
 function formatAnimatedPlanPrice(plan) {
-  const price = displayedPlanPrices.value[plan]
-  if (price == null) return null
-  return `$${Math.round(price)}`
+  if (getPlanPrice(plan, pricingIsYearly.value) == null) return "—"
+  return `$${Math.round(displayedPlanPrices.value[plan])}`
+}
+
+function billingPeriodLabel(plan) {
+  const total = getBilledPlanTotal(plan, pricingIsYearly.value)
+  const interval = pricingIsYearly.value ? "year" : "month"
+  return `US$${total.toLocaleString("en-US")} billed each ${interval}`
 }
 
 function animatePlanPrices(nextPrices) {
@@ -933,7 +954,7 @@ const faqs = [
 
 const handlePlanCta = (plan) => {
   if (!authenticated.value) {
-    return navigateTo({ name: "register" })
+    return startCheckout(plan, { yearly: pricingIsYearly.value })
   }
   openSubscriptionModal({ plan, yearly: pricingIsYearly.value })
 }

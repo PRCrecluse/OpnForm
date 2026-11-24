@@ -27,6 +27,14 @@ function stripeWebhookControllerForTests(): StripeController
     };
 }
 
+it('does not accept webhook events when the signing secret is missing', function () {
+    config(['cashier.webhook.secret' => null]);
+
+    $this->postJson(route('cashier.webhook'), [
+        'type' => 'customer.subscription.created',
+    ])->assertStatus(503);
+});
+
 describe('self-hosted Stripe checkout webhook', function () {
     it('returns a retryable failure and leaves the email unsent when license email delivery fails', function () {
         config(['app.self_hosted' => false]);

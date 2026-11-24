@@ -2,7 +2,7 @@
   <BaseSidebar>
 
     <template #mobile-header>
-      <h1 class="sm:hidden text-base font-medium text-neutral-500 tracking-wider px-2 truncate">
+      <h1 class="truncate px-2 font-display text-base font-semibold text-(--opn-ink) sm:hidden">
         {{ loading ? 'Loading...' : form?.title }}
       </h1>
     </template>
@@ -21,7 +21,7 @@
         <!-- Section Title (if exists) -->
         <h3 
           v-if="section.name"
-          class="text-xs font-medium text-neutral-400 tracking-wider mb-2 px-3"
+          class="mb-2 px-2.5 text-xs font-medium text-(--opn-muted)"
         >
           {{ section.name }}
         </h3>
@@ -29,6 +29,7 @@
         <!-- Section Items -->
         <NavigationList
           :items="section.items"
+          button-class="w-full justify-start rounded-md px-2.5 py-2"
           :loading="loading"
           :skeleton-filter="(item) => section.name === null && item.label !== 'Dashboard'"
           tracking-name="sidebar_nav_click"
@@ -166,4 +167,4 @@ const navigationSections = computed(() => [
   // Add shared navigation sections (Product and Help)
   ...sharedNavigationSections.value
 ])
-</script> 
+</script>

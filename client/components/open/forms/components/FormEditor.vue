@@ -9,18 +9,18 @@
       <!-- Loading overlay -->
       <div
         v-if="form.busy || loading"
-        class="absolute inset-0 bg-white bg-opacity-70 z-50 flex items-center justify-center"
+        class="absolute inset-0 z-50 flex items-center justify-center bg-white/70 dark:bg-neutral-900/70"
       >
-        <loader class="h-6 w-6 text-blue-500" />
+        <loader class="size-6 text-neutral-800 dark:text-neutral-100" />
       </div>
       <div
-        class="border-b bg-white md:hidden fixed inset-0 w-full z-50 flex flex-col items-center justify-center"
+        class="opn-chrome fixed inset-0 z-50 flex w-full flex-col items-center justify-center bg-(--opn-paper) px-6 md:hidden"
       >
         <Icon
-          name="heroicons:exclamation-circle"
-          class="w-10 h-10 text-blue-800"
+          name="i-heroicons-computer-desktop"
+          class="size-8 text-(--opn-ink)"
         />
-        <div class="p-5 text-blue-800 text-center">
+        <div class="max-w-sm p-5 text-center text-(--opn-ink)">
           OpnForm is not optimized for mobile devices. Please open this page on a device with a larger screen.
         </div>
         <div>
@@ -77,9 +77,9 @@
 
       <FormEditorErrorHandler>
         <div class="w-full flex grow min-h-0 overflow-hidden relative bg-white">
-          <div 
+          <div
             ref="elementRef"
-            class="relative shrink-0 min-h-0 overflow-hidden border-r"
+            class="opn-chrome relative min-h-0 shrink-0 overflow-hidden border-r border-(--opn-line) bg-(--opn-surface)"
             :class="isResizable ? '' : 'w-full md:w-1/2 md:max-w-xs lg:w-2/5'"
             :style="isResizable ? dynamicStyles : {}"
           >

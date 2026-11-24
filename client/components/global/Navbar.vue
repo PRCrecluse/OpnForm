@@ -1,173 +1,104 @@
 <template>
-  <nav v-if="hasNavbar" class="bg-white dark:bg-notion-dark">
-    <div class="max-w-7xl mx-auto px-8">
-      <div class="flex items-center justify-between h-14">
-        <div class="flex min-w-0 items-center gap-2">
-          <NuxtLink
-            :to="{ name: user ? 'home' : 'index' }"
-            class="shrink-0 font-semibold hover:no-underline flex items-center"
-          >
-            <img :src="isSelfHosted ? instanceLogoUrl : '/img/logo.svg'" :alt="isSelfHosted ? instanceName : 'OpnForm'" class="w-6 h-6 object-contain" />
-            <span
-              class="ml-2 max-w-48 truncate text-md hidden sm:inline text-gray-950 dark:text-white"
-              >{{ isSelfHosted ? instanceName : 'OpnForm' }}</span
+  <nav v-if="hasNavbar" aria-label="Main navigation" class="opn-chrome border-b border-(--opn-line) bg-(--opn-paper)">
+    <div class="mx-auto flex min-h-16 w-full max-w-[83rem] items-center justify-between gap-2 px-4 sm:min-h-18 sm:gap-4 sm:px-6">
+      <div class="flex min-w-0 items-center gap-1 lg:gap-4">
+        <NuxtLink
+          :to="{ name: user ? 'home' : 'index' }"
+          class="opn-heading flex min-w-0 items-center gap-2 text-lg font-semibold text-(--opn-ink) sm:text-xl"
+        >
+          <img
+            :src="isSelfHosted ? instanceLogoUrl : '/img/logo.svg'"
+            alt=""
+            width="26"
+            height="26"
+            class="size-6 shrink-0 object-contain sm:size-[26px]"
+            :class="{ 'brightness-0 dark:invert': !isSelfHosted }"
+          />
+          <span class="truncate">{{ isSelfHosted ? instanceName : 'OpnForm' }}</span>
+        </NuxtLink>
+
+        <WorkspaceDropdown v-if="user">
+          <template #default="{ workspace }">
+            <button v-if="workspace" :class="navLinkClasses" class="inline-flex" :aria-label="'Workspace: ' + workspace.name">
+              <WorkspaceIcon :workspace="workspace" />
+              <span class="ml-2 hidden max-w-24 truncate lg:block">{{ workspace.name }}</span>
+            </button>
+          </template>
+        </WorkspaceDropdown>
+      </div>
+
+      <div class="hidden items-center md:flex">
+        <NuxtLink
+          v-for="item in navigationItems"
+          :key="item.label"
+          :to="item.to"
+          :target="item.target"
+          :class="[navLinkClasses, item.desktopClass ?? 'inline-flex']"
+        >
+          {{ item.label }}
+        </NuxtLink>
+      </div>
+
+      <div class="flex shrink-0 items-center gap-1.5 sm:gap-2">
+        <UserDropdown v-if="user">
+          <template #default="{ user }">
+            <button
+              id="dropdown-menu-button"
+              type="button"
+              :class="navLinkClasses"
+              class="inline-flex"
+              dusk="nav-dropdown-button"
+              :aria-label="user.name"
             >
-          </NuxtLink>
-          <WorkspaceDropdown v-if="user" class="ml-6">
-            <template #default="{ workspace }">
-              <button
-                v-if="workspace"
+              <img :src="user.photo_url" alt="" class="size-6 rounded-full" width="24" height="24" />
+              <span class="ml-2 hidden max-w-20 truncate lg:inline">{{ user.name }}</span>
+            </button>
+          </template>
+        </UserDropdown>
+        <template v-else>
+          <UButton
+            v-if="$route.name !== 'login'"
+            :to="{ name: 'login' }"
+            color="neutral"
+            variant="ghost"
+            class="min-h-10 rounded-md"
+            label="Login"
+          />
+          <TrackClick v-if="!isSelfHosted" class="flex items-center" name="nav_create_form_click">
+            <UButton
+              :to="{ name: 'forms-create-guest' }"
+              trailing-icon="i-heroicons-arrow-up-right-20-solid"
+              label="Create a form"
+              class="min-h-10 rounded-md px-2.5 sm:px-3"
+              :ui="{ trailingIcon: 'hidden sm:block' }"
+            />
+          </TrackClick>
+        </template>
+        <details
+          v-if="navigationItems.length"
+          ref="mobileNavigation"
+          class="relative md:hidden"
+        >
+          <summary
+            aria-label="Open navigation menu"
+            class="mobile-nav-trigger grid size-10 cursor-pointer list-none place-items-center rounded-md border border-(--opn-line) bg-(--opn-surface) text-(--opn-ink) hover:bg-(--opn-paper) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
+          >
+            <UIcon name="i-heroicons-bars-3" class="size-5" />
+          </summary>
+          <ul class="absolute end-0 top-full z-50 mt-2 w-48 space-y-0.5 rounded-lg border border-(--opn-line) bg-(--opn-surface) p-1.5 shadow-sm">
+            <li v-for="item in navigationItems" :key="item.label">
+              <NuxtLink
+                :to="item.to"
+                :target="item.target"
                 :class="navLinkClasses"
                 class="flex items-center"
+                @click="closeMobileNavigation()"
               >
-                <WorkspaceIcon :workspace="workspace" />
-                <p
-                  class="hidden md:block max-w-10 truncate text-sm ml-2 text-gray-800 dark:text-gray-200"
-                >
-                  {{ workspace.name }}
-                </p>
-              </button>
-            </template>
-          </WorkspaceDropdown>
-        </div>
-        <NuxtLink v-if="isSelfHosted" :to="{ name: 'templates' }" :class="navLinkClasses" class="ml-auto !w-auto">
-          Templates
-        </NuxtLink>
-        <div class="hidden md:flex items-center gap-x-1 lg:gap-x-2" :class="{ 'ml-auto': !isSelfHosted }">
-          <NuxtLink
-            v-if="user"
-            :to="{ name: 'home' }"
-            :class="navLinkClasses"
-            class="hidden lg:block"
-          >
-            My Forms
-          </NuxtLink>
-          <NuxtLink
-            v-if="!isSelfHosted && $route.name !== 'enterprise'"
-            :to="{ name: 'enterprise' }"
-            :class="navLinkClasses"
-            class="hidden lg:block"
-          >
-            Enterprise
-          </NuxtLink>
-          <NuxtLink
-            v-if="!isSelfHosted && $route.name !== 'integrations'"
-            :to="{ name: 'integrations' }"
-            :class="navLinkClasses"
-            class="hidden md:block"
-          >
-            Integrations
-          </NuxtLink>
-          <NuxtLink
-            v-if="
-              $route.name !== 'ai-form-builder' &&
-              user === null &&
-              !useFeatureFlag('self_hosted') &&
-              useFeatureFlag('ai_features')
-            "
-            :to="{ name: 'ai-form-builder' }"
-            :class="navLinkClasses"
-            class="hidden lg:inline"
-          >
-            AI Form Builder
-          </NuxtLink>
-          <NuxtLink
-            v-if="
-              useFeatureFlag('billing.enabled') &&
-              $route.name !== 'pricing' &&
-              !isSelfHosted
-            "
-            :to="{ name: 'pricing' }"
-            :class="navLinkClasses"
-          >
-            <span
-              v-if="user && workspace && !workspaceIsPaid"
-              class="text-primary"
-              >Upgrade</span
-            >
-            <span v-else>Pricing</span>
-          </NuxtLink>
-
-          <NuxtLink
-            :href="opnformConfig.links.tech_docs"
-            :class="navLinkClasses"
-            target="_blank"
-            class="hidden 2xl:block"
-          >
-            Documentation
-          </NuxtLink>
-
-          <!-- <template v-if="appStore.featureBaseEnabled">
-            <button
-              v-if="user"
-              :class="navLinkClasses"
-              class="hidden xl:block"
-              @click.prevent="openChangelog"
-            >
-              What's new?
-              <span
-                v-if="hasNewChanges"
-                id="fb-update-badge"
-                class="bg-blue-500 rounded-full px-2 ml-1 text-white"
-              />
-            </button>
-            <a
-              v-else
-              :href="opnformConfig.links.changelog_url"
-              target="_blank"
-              :class="navLinkClasses"
-              class="hidden xl:block"
-            >
-              What's new?
-            </a>
-          </template> -->
-        </div>
-
-        <div class="block">
-          <div class="flex items-center">
-            <div class="ml-4 md:ml-6 lg:ml-8 xl:ml-12 relative">
-              <div class="relative inline-block text-left">
-                <UserDropdown v-if="user">
-                  <template #default="{ user }">
-                    <button
-                      id="dropdown-menu-button"
-                      type="button"
-                      :class="navLinkClasses"
-                      class="flex items-center"
-                      dusk="nav-dropdown-button"
-                    >
-                      <img :src="user.photo_url" class="rounded-full w-6 h-6" alt="Your profile" width="24" height="24" />
-                      <p class="ml-2 hidden sm:inline max-w-20 truncate">
-                        {{ user.name }}
-                      </p>
-                    </button>
-                  </template>
-                </UserDropdown>
-                <div v-else class="flex gap-4">
-                  <UButton
-                    v-if="$route.name !== 'login'"
-                    :to="{ name: 'login' }"
-                    class="bg-gray-100! text-gray-950! text-sm leading-5 tracking-[-0.6%] font-medium"
-                    label="Login"
-                  />
-
-                  <TrackClick
-                    class="flex items-center"
-                    v-if="!isSelfHosted"
-                    name="nav_create_form_click"
-                  >
-                    <UButton
-                      :to="{ name: 'forms-create-guest' }"
-                      color="primary"
-                      trailing-icon="i-heroicons-arrow-up-right-20-solid"
-                      label="Create a form"
-                    />
-                  </TrackClick>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+                {{ item.label }}
+              </NuxtLink>
+            </li>
+          </ul>
+        </details>
       </div>
     </div>
   </nav>
@@ -175,6 +106,7 @@
 
 <script setup>
 import { computed } from "vue"
+import { onClickOutside, onKeyStroke } from "@vueuse/core"
 import { useRoute } from "#imports"
 
 const WorkspaceDropdown = defineAsyncComponent(() => import("../dashboard/WorkspaceDropdown.vue"))
@@ -194,6 +126,16 @@ const isSelfHosted = computed(() => useFeatureFlag("self_hosted"))
 const { name: instanceName, logoUrl: instanceLogoUrl } = useSelfHostedPresentation()
 const { workspaceIsPaid } = useBillingUpsell()
 const route = useRoute()
+const mobileNavigation = ref(null)
+
+function closeMobileNavigation(restoreFocus = false) {
+  if (!mobileNavigation.value?.open) return
+  mobileNavigation.value.open = false
+  if (restoreFocus) mobileNavigation.value.querySelector('summary')?.focus()
+}
+
+onClickOutside(mobileNavigation, () => closeMobileNavigation())
+onKeyStroke("Escape", () => closeMobileNavigation(true))
 
 // Get current form for forms-slug routes
 const isFormSlugRoute = computed(
@@ -207,9 +149,31 @@ const { data: form } = useForms().detail(formSlug.value, {
   enabled: computed(() => !!formSlug.value),
 })
 
-// Constants / classes
 const navLinkClasses =
-  "border border-transparent hover:border-gray-200 text-gray-600 hover:text-gray-950 hover:no-underline dark:hover:text-white py-2.5 px-3 hover:bg-gray-50 rounded-md text-sm leading-5 tracking-[-0.6%] font-medium transition-colors w-full md:w-auto text-center md:text-left"
+  "min-h-10 items-center rounded-md px-2.5 text-sm text-(--opn-muted) transition-colors hover:bg-neutral-500/8 hover:text-(--opn-ink) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
+
+const navigationItems = computed(() => {
+  const items = []
+  if (user.value) items.push({ label: "My Forms", to: { name: "home" } })
+  if (isSelfHosted.value) {
+    items.push({ label: "Templates", to: { name: "templates" } })
+  } else {
+    if (!user.value) items.push({ label: "Features", to: { name: "index", hash: "#features" } })
+    if (route.name !== "integrations") items.push({ label: "Integrations", to: { name: "integrations" } })
+    if (route.name !== "enterprise") items.push({ label: "Enterprise", to: { name: "enterprise" } })
+    if (!user.value && route.name !== "ai-form-builder" && useFeatureFlag("ai_features")) {
+      items.push({ label: "AI Form Builder", to: { name: "ai-form-builder" } })
+    }
+    if (route.name !== "pricing" && useFeatureFlag("billing.enabled")) {
+      items.push({
+        label: user.value && workspace.value && !workspaceIsPaid.value ? "Upgrade" : "Pricing",
+        to: { name: "pricing" },
+      })
+    }
+    items.push({ label: "Documentation", to: opnformConfig.links.tech_docs, target: "_blank", desktopClass: "hidden 2xl:inline-flex" })
+  }
+  return items
+})
 
 const hasNavbar = computed(() => {
   if (isIframe.value) return false
@@ -226,3 +190,9 @@ const hasNavbar = computed(() => {
 })
 
 </script>
+
+<style scoped>
+.mobile-nav-trigger::-webkit-details-marker {
+  display: none;
+}
+</style>

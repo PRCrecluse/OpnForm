@@ -1,12 +1,12 @@
 <template>
   <UModal
     :open="isOpen"
-    :ui="{ content: 'sm:max-w-md' }"
+    :ui="{ content: 'opn-chrome rounded-lg sm:max-w-md' }"
     :dismissible="true"
     @close="handleCancel"
   >
     <template #header>
-      <h2 class="text-lg font-semibold">Two-Factor Authentication</h2>
+      <h2 class="opn-heading text-xl font-semibold">Two-Factor Authentication</h2>
     </template>
 
     <template #body>

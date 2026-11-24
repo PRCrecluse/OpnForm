@@ -1,12 +1,15 @@
 <template>
-  <div class="p-4 flex gap-2 group items-center relative border rounded-lg shadow-xs hover:bg-neutral-100 transition-all cursor-pointer">
+  <li class="relative flex items-center gap-2 px-3 py-3 transition-colors hover:bg-(--opn-paper) focus-within:bg-(--opn-paper) sm:gap-4 sm:px-4">
     <!-- Title -->
-    <div class="flex-grow items-center truncate relative">
-      <span class="font-semibold text-neutral-900 dark:text-white">{{ form.title }}</span>
+    <div class="flex min-w-0 grow items-center gap-2.5">
+      <span class="grid size-8 shrink-0 place-items-center rounded-md border border-(--opn-line) bg-(--opn-surface) text-(--opn-muted)">
+        <UIcon name="i-heroicons-document-text" class="size-4" aria-hidden="true" />
+      </span>
+      <span class="truncate text-sm font-semibold text-(--opn-ink) sm:text-base">{{ form.title }}</span>
     </div>
     
     <!-- Stats and Menu -->
-    <div class="flex items-center gap-4 relative text-sm text-neutral-500">
+    <div class="relative flex shrink-0 items-center gap-2 text-sm text-(--opn-muted) tabular-nums sm:gap-4">
       <!-- Status Badges -->
       <FormStatusBadges class="hidden md:block" :form="form" :with-tags="false" size="sm" />
       
@@ -15,7 +18,7 @@
 
       <!-- Views -->
       <UTooltip :text="`${formatNumberWithCommas(form.views_count)} views`">
-        <div class="flex items-center gap-1" title="Form views">
+        <div class="flex min-w-9 items-center gap-1 sm:min-w-11" title="Form views">
           <UIcon name="i-heroicons-eye" />
           <span>{{ formatNumber(form.views_count) }}</span>
         </div>
@@ -23,7 +26,7 @@
       
       <!-- Submissions -->
       <UTooltip :text="`${formatNumberWithCommas(form.submissions_count)} submissions`">
-        <div class="flex items-center gap-1" title="Form submissions">
+        <div class="flex min-w-9 items-center gap-1 sm:min-w-11" title="Form submissions">
           <UIcon name="i-heroicons-document-text" />
           <span>{{ formatNumber(form.submissions_count) }}</span>
         </div>
@@ -34,7 +37,7 @@
         <ExtraMenu :form="form" :is-main-page="true" portal="#home-portals">
           <template #default="{ loading }">
             <UButton
-              class="hover:bg-neutral-200"
+              aria-label="Form actions"
               color="neutral"
               variant="ghost"
               icon="i-heroicons-ellipsis-horizontal"
@@ -49,9 +52,10 @@
     <!-- Link overlay covering entire card -->
     <NuxtLink
       :to="{name:'forms-slug-show-submissions', params: {slug:form.slug}}"
-      class="absolute inset-0 z-10"
+      :aria-label="`Manage ${form.title}`"
+      class="absolute inset-0 z-10 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-(--opn-ink)"
     />
-  </div>
+  </li>
 </template>
 
 <script setup>
@@ -65,4 +69,4 @@ defineProps({
     required: true,
   },
 })
-</script> 
+</script>

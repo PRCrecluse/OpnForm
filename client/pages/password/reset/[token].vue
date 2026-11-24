@@ -1,65 +1,74 @@
 <template>
-  <div>
-    <div class="flex mt-6 mb-10">
-      <div class="w-full md:w-2/3 md:mx-auto md:max-w-md px-4">
-        <h1 class="my-6">
-          Reset Password
-        </h1>
-        <form
-          @submit.prevent="reset"
-        >
-          <UAlert
-            v-if="status"
-            color="success"
-            variant="subtle"
-            :description="status"
-            icon="i-heroicons-check-circle"
-            class="mb-4"
-          />
+  <div class="flex grow flex-col">
+    <AuthPanel
+      title="Choose a new password"
+      description="Update the password for your OpnForm account."
+    >
+      <form
+        @submit.prevent="reset"
+      >
+        <UAlert
+          v-if="status"
+          color="success"
+          variant="subtle"
+          :description="status"
+          icon="i-heroicons-check-circle"
+          class="mb-4"
+        />
 
-          <!-- Email -->
-          <text-input
-            name="email"
-            :form="form"
-            label="Email"
-            :required="true"
-          />
+        <!-- Email -->
+        <text-input
+          name="email"
+          :form="form"
+          label="Email"
+          :required="true"
+        />
 
-          <!-- Password -->
-          <text-input
-            native-type="password"
-            name="password"
-            :form="form"
-            label="Password"
-            :required="true"
-          />
+        <!-- Password -->
+        <text-input
+          native-type="password"
+          name="password"
+          :form="form"
+          label="Password"
+          :required="true"
+        />
 
-          <!-- Password Confirmation-->
-          <text-input
-            native-type="password"
-            class="mb-5"
-            name="password_confirmation"
-            :form="form"
-            label="Confirm Password"
-            :required="true"
-          />
+        <!-- Password Confirmation-->
+        <text-input
+          native-type="password"
+          class="mb-5"
+          name="password_confirmation"
+          :form="form"
+          label="Confirm Password"
+          :required="true"
+        />
 
-          <!-- Submit Button -->
-          <UButton
-            class="w-full"
-            :loading="form.busy"
-            type="submit"
-            label="Reset Password"
-          />
-        </form>
-      </div>
-    </div>
-    <open-form-footer />
+        <!-- Submit Button -->
+        <UButton
+          block
+          size="lg"
+          :loading="form.busy"
+          type="submit"
+          label="Reset Password"
+        />
+      </form>
+      <NuxtLink
+        :to="{ name: 'login' }"
+        class="mt-5 inline-flex items-center gap-2 text-sm text-(--opn-muted) hover:text-(--opn-ink) hover:underline"
+      >
+        <UIcon name="i-heroicons-arrow-left" class="size-4" />
+        Back to log in
+      </NuxtLink>
+    </AuthPanel>
+    <OpenFormFooter :show-cta="false" />
   </div>
 </template>
 
 <script>
+import AuthPanel from "~/components/pages/auth/AuthPanel.vue"
+
 export default {
+  components: { AuthPanel },
   setup() {
     definePageMeta({
       middleware: "guest",

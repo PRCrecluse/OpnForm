@@ -79,7 +79,7 @@
           <NuxtLink
             :to="{ name: 'terms-conditions' }"
             target="_blank"
-            class="underline"
+            class="text-highlighted underline underline-offset-2"
           >
             Terms and conditions
           </NuxtLink>
@@ -87,7 +87,7 @@
           <NuxtLink
             :to="{ name: 'privacy-policy' }"
             target="_blank"
-            class="underline"
+            class="text-highlighted underline underline-offset-2"
           >
             Privacy policy
           </NuxtLink>
@@ -107,9 +107,7 @@
     />
 
     <template v-if="useFeatureFlag('services.google.auth') && !useFeatureFlag('self_hosted') && !isSetup">
-      <p class="text-neutral-500 text-sm text-center my-2">
-        OR
-      </p>
+      <USeparator label="or" class="my-4" />
       <UButton
         color="neutral"
         variant="outline"
@@ -123,18 +121,18 @@
       />
     </template>
 
-    <p v-if="!isSetup" class="text-neutral-500 mt-2 text-sm text-center">
+    <p v-if="!isSetup" class="mt-4 text-center text-sm text-muted">
       Already have an account?
       <a
         v-if="isQuick"
         href="#"
-        class="font-medium ml-1"
+        class="ml-1 font-semibold text-highlighted underline-offset-4 hover:underline"
         @click.prevent="$emit('openLogin')"
       >Log In</a>
       <NuxtLink
         v-else
         :to="{ name: 'login' }"
-        class="font-semibold ml-1"
+        class="ml-1 font-semibold text-highlighted underline-offset-4 hover:underline"
       >
         Log In
       </NuxtLink>

@@ -1,176 +1,36 @@
 <template>
   <SelfHostedFooter v-if="isSelfHosted" />
   <template v-else>
-  <section v-if="showCta" class="relative px-8 lg:px-12">
-    <div class="max-w-336 mx-auto">
-      <div
-        class="relative rounded-4xl overflow-hidden bg-linear-to-br from-blue-600 via-blue-700 to-blue-800 pt-8 sm:pt-10 lg:pt-14 xl:pt-24 pl-8 md:pl-10 lg:pl-14 xl:pl-35"
-      >
-        <img
-          src="/img/pages/welcome/powerForm-bg.webp"
-          loading="lazy" decoding="async" width="1000" height="1000" alt="" aria-hidden="true"
-          class="absolute w-full h-full inset-0 object-cover opacity-30"
-        />
-        <div class="grid lg:grid-cols-2 relative z-10">
-          <div
-            class="text-white relative z-20 pr-8 sm:pr-10 md:pr-0 pb-8 sm:pb-10 lg:pb-14 xl:pb-24"
-          >
-            <h2
-              class="text-white text-3xl sm:text-5xl sm:leading-14 font-semibold tracking-[-1%] max-w-xl"
-            >
-              Powerful forms for everyone.
-            </h2>
-            <p
-              class="mt-6 text-lg leading-7 tracking-[-1.5%] font-normal text-white/80 max-w-xl"
-            >
-              Start free with unlimited submissions. Upgrade when you need more
-              control and customization.
-            </p>
-
-            <div class="mt-8">
-              <UButton
-                :to="{ name: 'pricing' }"
-                label="View Pricing"
-                trailing-icon="i-heroicons-arrow-up-right-20-solid"
-                class="rounded-xl pl-4 py-2.5 pr-3.5 text-base leading-7 tracking-[-1.1%] font-medium bg-white text-blue-700 hover:bg-white/95"
-              />
-            </div>
-
-            <div
-              class="my-8 lg:my-12 flex flex-wrap items-center gap-6 text-base font-medium leading-7 tracking-[-1.1%] text-white/90"
-            >
-              <div class="flex items-center gap-2">
-                <UIcon
-                  name="i-heroicons-check-20-solid"
-                  class="h-6 w-4 text-white/90"
-                />
-                <span>Free forever</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <UIcon
-                  name="i-heroicons-check-20-solid"
-                  class="h-6 w-4 text-white/90"
-                />
-                <span>No per-response fees</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <UIcon
-                  name="i-heroicons-check-20-solid"
-                  class="h-6 w-4 text-white/90"
-                />
-                <span>Fair pricing for growing teams</span>
-              </div>
-            </div>
-            <div
-              class="text-sm leading-5 tracking-[-0.6%] font-medium text-white/90"
-            >
-              Open-source, secure, and trusted by teams worldwide.
-            </div>
-            <div
-              class="w-full xl:min-w-155 mt-6 md:mt-4 flex items-center justify-center sm:justify-start lg:justify-center gap-x-12 gap-y-5 sm:gap-12 flex-wrap"
-            >
-              <div class="w-fit filter-[sepia(1)_brightness(2)_saturate(0)]">
-                <img
-                  src="/img/pages/welcome/vanguard-1.png"
-                  alt="Trusted Teams"
-                  class="w-full"
-                />
-              </div>
-              <div class="w-fit filter-[sepia(1)_brightness(2)_saturate(0)]">
-                <img
-                  src="/img/pages/welcome/logo-berkeley-2.png"
-                  alt="Trusted Teams"
-                  class="w-full"
-                />
-              </div>
-              <div class="w-fit filter-[sepia(1)_brightness(2)_saturate(0)]">
-                <img
-                  src="/img/pages/welcome/Frame-47.png"
-                  alt="Trusted Teams"
-                  class="w-full"
-                />
-              </div>
-              <div class="w-fit filter-[sepia(1)_brightness(2)_saturate(0)]">
-                <img
-                  src="/img/pages/welcome/Zomato_Logo-2.png"
-                  alt="Trusted Teams"
-                  class="w-full"
-                />
-              </div>
-              <div class="w-fit filter-[sepia(1)_brightness(2)_saturate(0)]">
-                <img
-                  src="/img/pages/welcome/UN_emblem_blue-2.png"
-                  alt="Trusted Teams"
-                  class="w-full"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="flex items-end justify-end pl-8 sm:pl-10">
-            <div
-              class="relative w-full overflow-hidden flex justify-end items-end"
-            >
-              <img
-                src="/img/pages/welcome/product-cover-half.webp"
-                loading="lazy" decoding="async" width="748" height="844"
-                alt="Product screenshot"
-                class="w-full max-w-128.25 h-auto"
-              />
-
-              <!-- gradient fade
-              <div
-                class="w-full max-w-128.25 absolute z-2 bottom-0 right-0 h-1/3 backdrop-blur-xs [mask:linear-gradient(to_top,rgba(0,0,0,0.2),transparent)]"
-              ></div> -->
-            </div>
-          </div>
+  <section v-if="showCta" class="opn-chrome mx-auto w-full max-w-[83rem] px-4 py-10 sm:px-6 sm:py-16">
+    <div class="footer-hero relative isolate overflow-hidden rounded-lg bg-[#191919] px-6 py-10 text-white sm:px-10 sm:py-14">
+      <div class="relative grid items-end gap-6 lg:grid-cols-[minmax(0,1fr)_auto]">
+        <div>
+          <h2 class="opn-heading text-3xl text-white sm:text-5xl">Build your first form today.</h2>
+          <p class="mt-3 max-w-md text-base leading-relaxed text-neutral-300">
+            Start free and collect unlimited submissions. Upgrade when you need more control and customization.
+          </p>
         </div>
-      </div>
-
-      <div
-        class="max-w-266 mx-auto pt-14 sm:pt-28 pb-12 sm:pb-16 border-b border-neutral-200"
-      >
-        <div class="grid md:grid-cols-2 gap-4">
-          <div class="md:max-w-lg">
-            <h3
-              class="text-3xl sm:text-5xl sm:leading-14 font-semibold tracking-[-1%] text-gray-950"
-            >
-              Build your first form today.
-            </h3>
-            <p
-              class="mt-4 text-lg leading-7 tracking-[-1.5%] font-normal text-gray-600"
-            >
-              Start free with unlimited submissions. Upgrade when you need more
-              control and customization.
-            </p>
-          </div>
-
-          <div
-            class="flex flex-col sm:flex-row gap-6 items-center justify-center md:justify-end md:max-h-12"
-          >
-            <UButton
-              :to="{ name: 'pricing' }"
-              label="View Pricing"
-              variant="outline"
-              color="neutral"
-              class="w-fit sm:w-auto px-4 py-2.5 rounded-[12px] text-base leading-7 tracking-[-1.1%] font-medium"
-            />
-            <UButton
-              :to="{
-                name: authenticated ? 'forms-create' : 'forms-create-guest',
-              }"
-              label="Get started. It's FREE!"
-              trailing-icon="i-heroicons-arrow-up-right-20-solid"
-              class="w-fit sm:w-auto pl-4 pr-3.5 py-2.5 rounded-[12px] text-base leading-7 tracking-[-1.1%] font-medium"
-            />
-          </div>
+        <div class="flex flex-wrap gap-2.5">
+          <UButton
+            :to="{ name: authenticated ? 'forms-create' : 'forms-create-guest' }"
+            label="Create a free form"
+            trailing-icon="i-heroicons-arrow-up-right-20-solid"
+            class="min-h-11 rounded-md bg-white px-4 text-neutral-900 hover:bg-neutral-200 focus-visible:outline-white"
+          />
+          <UButton
+            :to="{ name: 'pricing' }"
+            label="View pricing"
+            color="neutral"
+            variant="outline"
+            class="min-h-11 rounded-md bg-transparent px-4 text-white ring-white/30 hover:bg-white/10 focus-visible:outline-white"
+          />
         </div>
       </div>
     </div>
   </section>
 
-  <footer class="bg-white">
-    <div class="px-5 sm:px-8 lg:px-12 pt-10 sm:pt-14 lg:pt-16 pb-12 sm:pb-16 lg:pb-24">
+  <footer class="opn-chrome border-t border-(--opn-line) bg-(--opn-paper)">
+    <div class="px-5 sm:px-8 lg:px-12 py-10 sm:py-14">
       <div
         class="max-w-266 mx-auto grid gap-10 lg:grid-cols-[minmax(220px,0.8fr)_minmax(0,2.2fr)] lg:gap-14 xl:gap-20"
       >
@@ -182,8 +42,8 @@
               :to="{ name: user ? 'home' : 'index' }"
               class="inline-flex items-center gap-2 hover:no-underline"
             >
-              <img src="/img/logo.svg" alt="OpnForm" class="h-10 w-10" />
-              <span class="text-2xl font-semibold tracking-tight text-neutral-950"
+              <img src="/img/logo.svg" alt="" width="32" height="32" class="size-8 brightness-0 dark:invert" />
+              <span class="opn-heading text-2xl font-semibold text-(--opn-ink)"
                 >OpnForm</span
               >
             </NuxtLink>
@@ -195,18 +55,18 @@
                 :href="social.href"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="h-11 w-11 sm:h-10 sm:w-10 rounded-full flex items-center justify-center transition-colors border border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50"
+                class="h-11 w-11 sm:h-10 sm:w-10 rounded-md flex items-center justify-center transition-colors border border-(--opn-line) hover:bg-neutral-500/10"
                 :aria-label="social.label"
               >
-                <UIcon :name="social.icon" class="h-4 w-4 text-neutral-600" />
+                <UIcon :name="social.icon" class="h-4 w-4 text-(--opn-muted)" />
               </a>
             </div>
           </div>
 
           <div
-            class="text-sm leading-5 tracking-[0.6%] font-medium text-neutral-600 sm:text-right lg:mt-8 lg:text-left"
+            class="text-sm leading-5 tracking-[0.6%] font-medium text-(--opn-muted) sm:text-right lg:mt-8 lg:text-left"
           >
-            {{ currYear }} OpnForm — All rights reserved
+            © {{ currYear }} OpnForm
             <span v-if="version" class="block mt-1">
               Version {{ version }}
             </span>
@@ -221,7 +81,7 @@
               :class="group.wide ? 'min-[480px]:col-span-2 md:col-span-2' : ''"
             >
               <div
-                class="text-sm leading-5 tracking-[0.6%] font-medium text-neutral-950"
+                class="text-sm leading-5 tracking-[0.6%] font-medium text-(--opn-ink)"
               >
                 {{ group.title }}
               </div>
@@ -238,7 +98,7 @@
                   <NuxtLink
                     v-if="link.to"
                     :to="link.to"
-                    class="flex min-h-7 w-fit items-center whitespace-nowrap text-sm leading-5 tracking-[-0.6%] font-medium transition-colors hover:no-underline text-neutral-600 hover:text-neutral-950"
+                    class="flex min-h-7 w-fit items-center whitespace-nowrap text-sm leading-5 tracking-[-0.6%] font-medium transition-colors text-(--opn-muted) hover:text-(--opn-ink) underline-offset-4 hover:underline"
                   >
                     {{ link.label }}
                   </NuxtLink>
@@ -248,7 +108,7 @@
                     :href="link.href"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="flex min-h-7 w-fit items-center whitespace-nowrap text-sm leading-5 tracking-[-0.6%] font-medium transition-colors hover:no-underline text-neutral-600 hover:text-neutral-950"
+                    class="flex min-h-7 w-fit items-center whitespace-nowrap text-sm leading-5 tracking-[-0.6%] font-medium transition-colors text-(--opn-muted) hover:text-(--opn-ink) underline-offset-4 hover:underline"
                   >
                     {{ link.label }}
                   </a>
@@ -354,12 +214,9 @@ const linkGroups = computed(() => [
   pointer-events: none;
   opacity: 0.2;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.24) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.24) 1px, transparent 1px),
-    linear-gradient(rgba(255, 255, 255, 0.11) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.11) 1px, transparent 1px);
-  background-size: 72px 72px, 72px 72px, 12px 12px, 12px 12px;
-  background-position: 0 0, 0 0, 0 0, 0 0;
-  background-repeat: repeat;
+    linear-gradient(to bottom, transparent 31px, rgb(255 255 255 / 0.45) 32px),
+    linear-gradient(to right, transparent 31px, rgb(255 255 255 / 0.45) 32px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(to left, #000, transparent 78%);
 }
 </style>

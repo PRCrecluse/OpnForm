@@ -1,22 +1,20 @@
 <template>
-  <div class="w-full border-b px-3 py-3 min-h-16 flex gap-x-3 items-center bg-white">
+  <div class="opn-chrome flex min-h-16 w-full items-center gap-x-2 border-b border-(--opn-line) bg-(--opn-surface) px-3 py-2 lg:gap-x-3 lg:px-4">
     <a
       v-if="backButton"
       href="#"
-      class="ml-2 flex text-blue font-semibold text-sm -m-1 hover:bg-blue-500/10 rounded-md p-1 group"
+      aria-label="Go back"
+      class="grid size-8 shrink-0 place-items-center rounded-md text-(--opn-ink) hover:bg-neutral-100 dark:hover:bg-neutral-800"
       @click.prevent="$emit('go-back')"
     >
-      <Icon
-        name="heroicons:arrow-left-20-solid"
-        class="text-blue mr-1 w-6 h-6 group-hover:-translate-x-0.5 transition-all"
-      />
+      <UIcon name="i-heroicons-arrow-left" class="size-4" />
     </a>
-
 
     <UTabs
       id="form-editor-navbar-tabs"
-      class="px-4"
+      class="shrink-0"
       v-model="activeTab"
+      color="neutral"
       :content="false"
       :items="[
         { label: 'Build', value: 'build' },
@@ -25,7 +23,7 @@
     />
     <UButton
       color="neutral"
-      variant="subtle"
+      variant="ghost"
       icon="i-heroicons-cog-6-tooth"
       label="Settings"
       @click="settingsModal = true"
@@ -46,13 +44,13 @@
       class="ml-2"
     />
 
-    <div class="flex-grow min-w-0 flex justify-center items-center gap-2">
+    <div class="flex min-w-0 grow items-center justify-center gap-2">
       <EditableTag
         id="form-editor-title"
         v-model="form.title"
         element="h1"
         :max-length="255"
-        class="font-semibold py-1 text-xl leading-7 w-72 max-w-full text-neutral-700 truncate form-editor-title"
+        class="form-editor-title w-72 max-w-full truncate py-1 font-display text-lg leading-7 font-semibold tracking-tight text-(--opn-ink)"
       />
       <UBadge
         v-if="form.visibility == 'draft'"
@@ -75,7 +73,7 @@
     <FormHistory />
 
     <div
-      class="flex items-center gap-x-2"
+      class="flex shrink-0 items-center gap-x-1 lg:gap-x-2"
     >
       <TrackClick name="form_editor_help_button_clicked">
         <UTooltip
@@ -88,6 +86,7 @@
             variant="ghost"
             color="neutral"
             icon="i-heroicons-question-mark-circle"
+            aria-label="Help"
             @click.prevent="crisp.openHelpdesk()"
           />
         </UTooltip>
@@ -110,7 +109,7 @@
           >
             <UButton
               color="primary"
-              class="px-8 md:px-4 py-2"
+              class="px-3 py-2 lg:px-4"
               :loading="updateFormLoading"
               :class="saveButtonClass"
               data-testid="save-form-button"
@@ -124,7 +123,7 @@
           v-if="hasUnsavedChanges !== null"
           role="status"
           class="mt-1 text-xs whitespace-nowrap"
-          :class="hasUnsavedChanges ? 'text-amber-700' : 'text-neutral-500'"
+          :class="hasUnsavedChanges ? 'text-amber-700 dark:text-amber-400' : 'text-(--opn-muted)'"
           data-testid="form-save-status"
         >
           {{ updateFormLoading ? 'Saving changes…' : hasUnsavedChanges ? 'Unsaved changes' : 'All changes saved' }}

@@ -1,26 +1,18 @@
 <template>
-  <section class="bg-white">
-    <div class="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pb-14 sm:pb-28">
-      <div class="max-w-lg mx-auto text-center">
-        <h2 class="font-semibold text-gray-950 tracking-[-0.5%]">
-          Trusted by teams worldwide
-        </h2>
-        <p
-          class="text-base mt-4 leading-7 font-normal tracking-[-1.1%] text-gray-600"
-        >
-          Join thousands of companies and creators using OpnForm to collect
-          secure, high-quality data every day.
-        </p>
-      </div>
+  <section aria-labelledby="trusted-teams-title">
+    <div class="mx-auto grid max-w-266 items-center gap-6 px-5 py-8 sm:px-8 lg:grid-cols-[auto_1fr] lg:gap-12">
+      <h2 id="trusted-teams-title" class="text-center text-sm font-medium text-(--opn-muted) lg:text-left">
+        Trusted by teams worldwide
+      </h2>
 
       <div
-        class="mt-12 sm:mt-16 flex items-center justify-center gap-12 flex-wrap"
+        class="flex flex-wrap items-center justify-center gap-x-8 gap-y-5 grayscale lg:justify-between"
       >
         <div class="w-fit">
           <img
             src="/img/pages/welcome/vanguard-1.png"
             width="94" height="20" loading="lazy" decoding="async"
-            alt="Trusted Teams"
+            alt="Vanguard"
             class="w-full"
           />
         </div>
@@ -28,7 +20,7 @@
           <img
             src="/img/pages/welcome/logo-berkeley-2.png"
             width="100" height="19" loading="lazy" decoding="async"
-            alt="Trusted Teams"
+            alt="UC Berkeley"
             class="w-full"
           />
         </div>
@@ -36,7 +28,7 @@
           <img
             src="/img/pages/welcome/UN_emblem_blue-2.png"
             width="47" height="40" loading="lazy" decoding="async"
-            alt="Trusted Teams"
+            alt="United Nations"
             class="w-full"
           />
         </div>
@@ -44,7 +36,7 @@
           <img
             src="/img/pages/welcome/Frame-47.png"
             width="90" height="21" loading="lazy" decoding="async"
-            alt="Trusted Teams"
+            alt="American Red Cross"
             class="w-full"
           />
         </div>
@@ -52,7 +44,7 @@
           <img
             src="/img/pages/welcome/Zomato_Logo-2.png"
             width="94" height="20" loading="lazy" decoding="async"
-            alt="Trusted Teams"
+            alt="Zomato"
             class="w-full"
           />
         </div>
@@ -60,5 +52,3 @@
     </div>
   </section>
 </template>
-
-<script setup></script>

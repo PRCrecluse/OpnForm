@@ -1,15 +1,15 @@
 <template>
-  <div class="flex flex-col sm:flex-row h-screen bg-white">
+  <div class="opn-chrome flex h-dvh flex-col bg-(--opn-paper) sm:flex-row">
     <!-- Form Sidebar - Always shown -->
     <FormSidebar :form="form" :loading="isLoading" />
     
     <!-- Main content area -->
-    <main class="flex-1 sm:pl-58 overflow-hidden">
+    <main class="min-w-0 flex-1 overflow-hidden sm:pl-58">
       <div class="flex flex-col h-full">
         <!-- Loading State -->
-        <div v-if="isLoading || !isFormFinished" class="flex-1 bg-white">
+        <div v-if="isLoading || !isFormFinished" class="flex-1">
           <!-- Top Bar Skeleton -->
-          <div class="bg-white p-4">
+          <div class="border-b border-(--opn-line) bg-(--opn-surface) px-4 py-5 sm:py-8">
             <div class="max-w-4xl mx-auto">
               <!-- Form Title and Actions Skeleton -->
               <div class="flex flex-wrap items-start justify-between gap-4">
@@ -39,7 +39,7 @@
           </div>
 
           <!-- Page Content Skeleton -->
-          <div :class="['flex-1 bg-white p-4', { 'overflow-y-auto': !isSubmissionsPage }]">
+          <div :class="['flex-1 p-4', { 'overflow-y-auto': !isSubmissionsPage }]">
             <div class="max-w-4xl mx-auto space-y-4">
               <USkeleton class="h-8 w-48" />
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -55,12 +55,12 @@
         <!-- Loaded Content -->
         <template v-else-if="form">
           <!-- Top Bar (Non-Sticky) -->
-          <div class="bg-white p-4 pb-0">
+          <header class="border-b border-(--opn-line) bg-(--opn-surface) px-4 py-4 sm:py-7">
             <div class="max-w-4xl mx-auto">
               <!-- Form Title and Actions -->
               <div class="flex flex-wrap items-start justify-between gap-4">
                 <div class="flex-1 min-w-0 hidden sm:block">
-                  <h1 class="text-xl font-semibold text-neutral-900 truncate ">
+                  <h1 class="opn-heading truncate text-3xl font-semibold text-(--opn-ink) lg:text-4xl">
                     {{ form.title }}
                   </h1>
                 </div>
@@ -73,6 +73,7 @@
                     variant="outline"
                     class="hover:no-underline"
                     icon="i-heroicons-eye"
+                    aria-label="Open form"
                     @click="showDraftFormWarningNotification"
                   >
                     <span class="hidden sm:inline">Open <span class="hidden md:inline">form</span></span>
@@ -89,6 +90,7 @@
                       variant="outline"
                       class="hover:no-underline"
                       icon="i-heroicons-arrow-top-right-on-square"
+                      aria-label="Open form"
                     >
                       <span class="hidden sm:inline">Open <span class="hidden md:inline">form</span></span>
                     </UButton>
@@ -102,6 +104,7 @@
                       color="primary"
                       icon="i-heroicons-pencil"
                       class="hover:no-underline"
+                      aria-label="Edit form"
                       :to="{ name: 'forms-slug-edit', params: { slug: form.slug } }"
                     >
                       Edit <span class="hidden md:inline">form</span>
@@ -115,16 +118,16 @@
                 </div>
               </div>
 
-              <div class="flex flex-wrap items-center gap-2 text-neutral-500 text-xs mt-2 sm:mt-0">
+              <div class="mt-2 flex flex-wrap items-center gap-3 text-xs text-(--opn-muted)">
                 <UTooltip :text="`${formatNumberWithCommas(form.views_count)} views`">
-                  <div class="flex items-center gap-1">
+                  <div class="flex items-center gap-1" :aria-label="`${formatNumberWithCommas(form.views_count)} views`">
                     <UIcon name="i-heroicons-eye" />
                     <span>{{ formatNumber(form.views_count) }}</span>
                   </div>
                 </UTooltip>
 
                 <UTooltip :text="`${formatNumberWithCommas(form.submissions_count)} submissions`">
-                  <div class="flex items-center gap-1">
+                  <div class="flex items-center gap-1" :aria-label="`${formatNumberWithCommas(form.submissions_count)} submissions`">
                     <UIcon name="i-heroicons-document-text" />
                     <span>{{ formatNumber(form.submissions_count) }}</span>
                   </div>
@@ -138,10 +141,10 @@
                 <FormStatusBadges size="sm" :form="form" />
               </div>
             </div>
-          </div>
+          </header>
 
           <!-- Page Content -->
-          <div :class="['flex-1 bg-white', { 'overflow-y-auto': !isSubmissionsPage }]">
+          <div :class="['min-h-0 flex-1', { 'overflow-y-auto': !isSubmissionsPage }]">
             <div class="px-4 pt-4">
               <div class="mx-auto max-w-4xl">
                 <FormCleanings :form="form" />
@@ -154,7 +157,7 @@
         <!-- Not Found State -->
         <div
           v-else
-          class="flex items-center justify-center flex-1 bg-white"
+          class="flex flex-1 items-center justify-center"
         >
           <DashboardEmptyState
             icon="i-heroicons-document-magnifying-glass"

@@ -2,72 +2,67 @@
   <div
     v-if="workspace"
     data-testid="home-page"
-    class="flex flex-col h-full bg-white"
+    class="mx-auto flex h-full max-w-6xl flex-col px-4 py-8 sm:px-8 sm:py-10 lg:px-12 lg:py-12"
   >
-    <div
-      class="sticky top-0 z-50 bg-white h-[49px] border-b border-neutral-200 p-2 sm:px-4"
-    >
-      <div
-        class="max-w-4xl mx-auto flex items-center justify-between flex-shrink-0 gap-2 px-2 sm:px-0"
-      >
-        <VTransition name="fade">
-          <div
-            v-if="forms?.length > 0 || isFilteringForms"
-            class="flex items-center gap-2"
-          >
-            <UInput
-              v-model="search"
-              placeholder="Search forms..."
-              icon="i-heroicons-magnifying-glass-solid"
-            />
+    <header class="mb-6 flex flex-wrap items-center justify-between gap-4 sm:mb-8">
+      <h1 class="opn-heading text-4xl font-semibold text-(--opn-ink) sm:text-5xl">Forms</h1>
+      <TrackClick name="home_top_bar_create_form_click">
+        <UButton
+          v-if="!workspace?.is_readonly"
+          icon="i-heroicons-plus"
+          label="Create Form"
+          size="lg"
+          :to="{ name: 'forms-create' }"
+        />
+      </TrackClick>
+    </header>
 
-            <USelectMenu
-              v-if="allTags.length > 0"
-              v-model="selectedTags"
-              :items="tagOptions"
-              multiple
-              placeholder="Tags"
-              class="hidden sm:block"
-              :ui="{ content: 'min-w-fit' }"
-            />
-
-            <UButton
-              v-if="isFilteringForms"
-              label="Clear"
-              variant="ghost"
-              color="neutral"
-              @click="clearFilters"
-            />
-          </div>
-          <div class="grow" v-else />
-        </VTransition>
-
-        <TrackClick name="home_top_bar_create_form_click">
-          <UButton
-            v-if="!workspace?.is_readonly"
-            icon="i-heroicons-plus"
-            label="Create Form"
-            :to="{ name: 'forms-create' }"
+    <div>
+      <section aria-label="Workspace forms" class="overflow-hidden rounded-lg border border-(--opn-line) bg-(--opn-surface)">
+        <div
+          v-if="forms?.length > 0 || isFilteringForms"
+          class="flex flex-wrap items-center gap-2 border-b border-(--opn-line) px-3 py-3 sm:px-4"
+        >
+          <UInput
+            v-model="search"
+            aria-label="Search forms"
+            placeholder="Search forms..."
+            icon="i-heroicons-magnifying-glass"
+            class="min-w-0 flex-1 sm:max-w-64"
           />
-        </TrackClick>
-      </div>
-    </div>
 
-    <div class="flex-1 overflow-y-auto p-4">
-      <div class="max-w-4xl mx-auto">
+          <USelectMenu
+            v-if="allTags.length > 0"
+            v-model="selectedTags"
+            :items="tagOptions"
+            multiple
+            aria-label="Filter forms by tags"
+            placeholder="Tags"
+            class="hidden max-w-56 sm:inline-flex"
+            :ui="{ content: 'min-w-fit' }"
+          />
+
+          <UButton
+            v-if="isFilteringForms"
+            label="Clear"
+            variant="ghost"
+            color="neutral"
+            @click="clearFilters"
+          />
+        </div>
+
         <ClientOnly>
           <VTransition name="fade">
             <div
               v-if="isFetched && !isFormsLoading && forms?.length === 0"
               class="text-center py-16 px-4"
             >
-              <UIcon
-                name="i-heroicons-document-plus"
-                class="h-12 w-12 text-neutral-400 mx-auto"
-              />
-              <h3 class="mt-4 text-lg font-semibold text-neutral-900">
+              <span class="mx-auto grid size-10 place-items-center rounded-md border border-(--opn-line) bg-(--opn-paper) text-(--opn-ink)">
+                <UIcon name="i-heroicons-document-plus" class="size-5" />
+              </span>
+              <h2 class="opn-heading mt-4 text-xl font-semibold text-(--opn-ink)">
                 Create your first form
-              </h3>
+              </h2>
               <p class="mt-1 text-sm text-neutral-500">
                 Get started by creating a new form to collect responses.
               </p>
@@ -81,7 +76,7 @@
             </div>
 
             <div
-              v-if="
+              v-else-if="
                 isFetched &&
                 !isFormsLoading &&
                 forms?.length > 0 &&
@@ -89,13 +84,12 @@
               "
               class="text-center py-16 px-4"
             >
-              <UIcon
-                name="i-heroicons-magnifying-glass"
-                class="h-12 w-12 text-neutral-400 mx-auto"
-              />
-              <h3 class="mt-4 text-lg font-semibold text-neutral-900">
+              <span class="mx-auto grid size-10 place-items-center rounded-md border border-(--opn-line) bg-(--opn-paper) text-(--opn-ink)">
+                <UIcon name="i-heroicons-magnifying-glass" class="size-5" />
+              </span>
+              <h2 class="opn-heading mt-4 text-xl font-semibold text-(--opn-ink)">
                 No forms found
-              </h3>
+              </h2>
               <p class="mt-1 text-sm text-neutral-500">
                 Your search and filter criteria did not match any forms.
               </p>
@@ -108,16 +102,16 @@
               />
             </div>
 
-            <div v-if="enrichedForms.length > 0" class="mb-10">
-              <div class="flex flex-col gap-2 lg:mt-6">
+            <div v-else-if="enrichedForms.length > 0">
+              <ul class="divide-y divide-(--opn-line)">
                 <FormCard
                   v-for="form in enrichedForms"
                   :key="form.id"
                   :form="form"
                 />
-              </div>
+              </ul>
 
-              <div v-if="isLoadingMore" class="flex flex-col gap-2 mt-2">
+              <div v-if="isLoadingMore" class="divide-y divide-(--opn-line) border-t border-(--opn-line)">
                 <FormCardSkeleton />
                 <FormCardSkeleton class="opacity-60" />
                 <FormCardSkeleton class="opacity-30" />
@@ -131,25 +125,25 @@
                   Loaded {{ currentPage }} of {{ totalPages }} pages
                 </div>
               </div>
-
-              <UpgradeBanner v-if="enrichedForms.length >= 2" class="mt-2" />
             </div>
 
-            <div v-if="isFormsLoading" class="flex flex-col gap-2">
+            <div v-else-if="isFormsLoading" class="divide-y divide-(--opn-line)">
               <FormCardSkeleton />
               <FormCardSkeleton />
               <FormCardSkeleton />
             </div>
           </VTransition>
           <template #fallback>
-            <div class="flex flex-col gap-2">
+            <div class="divide-y divide-(--opn-line)">
               <FormCardSkeleton />
               <FormCardSkeleton />
               <FormCardSkeleton />
             </div>
           </template>
         </ClientOnly>
-      </div>
+      </section>
+
+      <UpgradeBanner v-if="enrichedForms.length >= 2" />
     </div>
     <div id="home-portals" class="z-20" />
 

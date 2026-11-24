@@ -3,7 +3,7 @@
     <div
       v-if="show"
       ref="elementRef"
-      class="absolute shadow-lg shadow-neutral-800/30 top-0 h-[calc(100vh-55px)] right-0 lg:shadow-none lg:relative bg-white border-l flex-shrink-0 z-30"
+      class="opn-chrome absolute top-0 right-0 z-30 h-full shrink-0 border-l border-(--opn-line) bg-(--opn-surface) shadow-lg shadow-black/10 lg:relative lg:shadow-none"
       :class="[
         isResizable ? '' : 'w-full md:w-1/2 lg:w-2/5',
         widthClass

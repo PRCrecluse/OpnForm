@@ -5,7 +5,7 @@
     :dismissible="!loading"
   >
     <template #content>
-      <div class="overflow-hidden bg-neutral-50/70 p-2">
+      <div class="opn-chrome overflow-hidden bg-(--opn-paper) p-2">
         <SlidingTransition
           :style="transitionContainerStyle"
           direction="horizontal"
@@ -21,17 +21,17 @@
               v-if="currentStep === 1"
               key="step1"
               ref="step1Ref"
-              class="rounded-lg border border-neutral-200 bg-white p-5 shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)] sm:p-6"
+              class="rounded-lg border border-(--opn-line) bg-(--opn-surface) p-5 sm:p-6"
             >
               <div class="mx-auto mb-4 max-w-lg text-center">
-                <div class="mx-auto mb-3 flex h-9 w-9 items-center justify-center rounded-lg border border-blue-100 bg-blue-50 text-blue-600">
+                <div class="mx-auto mb-3 grid size-9 place-items-center rounded-md border border-(--opn-line) bg-(--opn-paper) text-(--opn-ink)">
                   <Icon
                     name="i-heroicons-sparkles"
                     class="h-4 w-4"
                   />
                 </div>
-                <h2 class="text-xl font-semibold text-neutral-950">Choose a form style</h2>
-                <p class="mt-1 text-sm text-neutral-500">
+                <h2 class="opn-heading text-2xl font-semibold text-(--opn-ink)">Choose a form style</h2>
+                <p class="mt-1 text-sm text-(--opn-muted)">
                   Pick the respondent experience first. You can still change it later.
                 </p>
               </div>
@@ -39,52 +39,52 @@
                 <button
                   type="button"
                   data-testid="form-style-classic"
-                  class="group relative overflow-hidden rounded-lg border border-neutral-200 bg-white p-4 text-left shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-[0_18px_45px_-28px_rgba(37,99,235,0.45)] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/30"
+                  class="group relative overflow-hidden rounded-lg border border-(--opn-line) bg-(--opn-surface) p-4 text-left transition-colors hover:border-neutral-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--opn-ink)"
                   @click="selectStyle('classic')"
                 >
-                  <div class="rounded-lg bg-neutral-50 p-3 ring-1 ring-neutral-100">
+                  <div class="rounded-md border border-(--opn-line) bg-(--opn-paper) p-3">
                     <Icon
                       name="opnform:form-style-classic"
                       mode="svg"
-                      class="mx-auto h-[84px] w-[120px] rounded-md shadow **:transition-colors duration-150 ease-out [--icon-fg:#737373] [--icon-muted:#D4D4D4] group-hover:[--icon-fg:#2563eb] group-hover:[--icon-muted:#93c5fd]"
+                      class="mx-auto h-[84px] w-[120px] rounded-md **:transition-colors duration-150 ease-out [--icon-fg:#737373] [--icon-muted:#d4d4d4] group-hover:[--icon-fg:#252525] group-hover:[--icon-muted:#a3a3a3]"
                     />
                   </div>
                   <div class="mt-4 flex items-start justify-between gap-3">
                     <div>
-                      <p class="font-semibold text-neutral-950">Classic</p>
-                      <p class="mt-1 text-xs leading-5 text-neutral-500">
+                      <p class="font-semibold text-(--opn-ink)">Classic</p>
+                      <p class="mt-1 text-xs leading-5 text-(--opn-muted)">
                         Multi-page forms with layout blocks.
                       </p>
                     </div>
                     <Icon
                       name="i-heroicons-arrow-right"
-                      class="mt-1 h-4 w-4 text-neutral-300 transition group-hover:translate-x-0.5 group-hover:text-blue-500"
+                      class="mt-1 h-4 w-4 text-(--opn-muted) transition group-hover:translate-x-0.5 group-hover:text-(--opn-ink)"
                     />
                   </div>
                 </button>
                 <button
                   type="button"
                   data-testid="form-style-focused"
-                  class="group relative overflow-hidden rounded-lg border border-neutral-200 bg-white p-4 text-left shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-[0_18px_45px_-28px_rgba(37,99,235,0.45)] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/30"
+                  class="group relative overflow-hidden rounded-lg border border-(--opn-line) bg-(--opn-surface) p-4 text-left transition-colors hover:border-neutral-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--opn-ink)"
                   @click="selectStyle('focused')"
                 >
-                  <div class="rounded-lg bg-neutral-50 p-3 ring-1 ring-neutral-100">
+                  <div class="rounded-md border border-(--opn-line) bg-(--opn-paper) p-3">
                     <Icon
                       name="opnform:form-style-focused"
                       mode="svg"
-                      class="mx-auto h-[84px] w-[120px] rounded-md shadow **:transition-colors duration-150 ease-out [--icon-fg:#737373] [--icon-muted:#D4D4D4] group-hover:[--icon-fg:#2563eb] group-hover:[--icon-muted:#93c5fd]"
+                      class="mx-auto h-[84px] w-[120px] rounded-md **:transition-colors duration-150 ease-out [--icon-fg:#737373] [--icon-muted:#d4d4d4] group-hover:[--icon-fg:#252525] group-hover:[--icon-muted:#a3a3a3]"
                     />
                   </div>
                   <div class="mt-4 flex items-start justify-between gap-3">
                     <div>
-                      <p class="font-semibold text-neutral-950">Focused</p>
-                      <p class="mt-1 text-xs leading-5 text-neutral-500">
+                      <p class="font-semibold text-(--opn-ink)">Focused</p>
+                      <p class="mt-1 text-xs leading-5 text-(--opn-muted)">
                         One question at a time.
                       </p>
                     </div>
                     <Icon
                       name="i-heroicons-arrow-right"
-                      class="mt-1 h-4 w-4 text-neutral-300 transition group-hover:translate-x-0.5 group-hover:text-blue-500"
+                      class="mt-1 h-4 w-4 text-(--opn-muted) transition group-hover:translate-x-0.5 group-hover:text-(--opn-ink)"
                     />
                   </div>
                 </button>
@@ -96,9 +96,9 @@
               v-else-if="currentStep === 2"
               key="step2"
               ref="step1Ref"
-              class="rounded-lg border border-neutral-200 bg-white shadow-[0_24px_70px_-45px_rgba(15,23,42,0.45)]"
+              class="rounded-lg border border-(--opn-line) bg-(--opn-surface)"
             >
-              <div class="flex items-center justify-between gap-3 border-b border-neutral-100 px-4 py-3 sm:px-5">
+              <div class="flex items-center justify-between gap-3 border-b border-(--opn-line) px-4 py-3 sm:px-5">
                 <UButton
                   variant="ghost"
                   color="neutral"
@@ -107,34 +107,34 @@
                   label="Back to styles"
                   class="-ml-2"
                 />
-                <span class="rounded-md border border-neutral-200 bg-neutral-50 px-2 py-1 text-xs font-medium text-neutral-500">
+                <span class="rounded-md border border-(--opn-line) bg-(--opn-paper) px-2 py-1 text-xs font-medium text-(--opn-muted)">
                   {{ selectedStyleLabel }}
                 </span>
               </div>
 
               <div class="p-4 sm:p-5">
                 <div class="mb-4">
-                  <h2 class="text-xl font-semibold text-neutral-950">How do you want to start?</h2>
-                  <p class="mt-1 text-sm text-neutral-500">
+                  <h2 class="opn-heading text-2xl font-semibold text-(--opn-ink)">How do you want to start?</h2>
+                  <p class="mt-1 text-sm text-(--opn-muted)">
                     {{ useFeatureFlag('ai_features') ? 'Start from a prompt, a template, an import, or a clean contact form.' : 'Start from a template, an import, or a clean contact form.' }}
                   </p>
                 </div>
 
                 <div
                   v-if="useFeatureFlag('ai_features')"
-                  class="relative overflow-hidden rounded-lg border border-neutral-200 bg-white shadow-[0_20px_55px_-38px_rgba(15,23,42,0.55)]"
+                  class="relative overflow-hidden rounded-lg border border-(--opn-line) bg-(--opn-surface)"
                 >
-                  <div class="flex items-center justify-between gap-3 border-b border-neutral-100 bg-neutral-50/80 px-3 py-2">
+                  <div class="flex items-center justify-between gap-3 border-b border-(--opn-line) bg-(--opn-paper) px-3 py-2">
                     <div class="flex items-center gap-2">
-                      <span class="flex h-7 w-7 items-center justify-center rounded-md bg-blue-600 text-white shadow-sm">
+                      <span class="flex h-7 w-7 items-center justify-center rounded-md bg-(--opn-ink) text-(--opn-surface)">
                         <Icon
                           name="i-heroicons-bolt"
                           class="h-4 w-4"
                         />
                       </span>
                       <div>
-                        <p class="text-sm font-semibold text-neutral-950">AI form generator</p>
-                        <p class="text-xs text-neutral-500">Describe the result you want.</p>
+                        <p class="text-sm font-semibold text-(--opn-ink)">AI form generator</p>
+                        <p class="text-xs text-(--opn-muted)">Describe the result you want.</p>
                       </div>
                     </div>
                   </div>
@@ -153,18 +153,18 @@
                     @input-filled="generateForm"
                   />
 
-                  <div class="border-t border-neutral-100 px-3 py-3">
+                  <div class="border-t border-(--opn-line) px-3 py-3">
                     <div
                       v-if="loading"
                       class="mb-3"
                     >
                       <div class="mb-2 flex items-center justify-between gap-3">
                         <span class="text-xs font-medium text-neutral-600">Generating your form</span>
-                        <span class="text-xs tabular-nums text-neutral-500">{{ Math.round(generationProgress) }}%</span>
+                        <span class="text-xs tabular-nums text-(--opn-muted)">{{ Math.round(generationProgress) }}%</span>
                       </div>
                       <div class="h-1.5 overflow-hidden rounded-md bg-neutral-100">
                         <div
-                          class="h-full rounded-md bg-blue-600 transition-[width] duration-500 ease-out"
+                          class="h-full rounded-md bg-(--opn-ink) transition-[width] duration-500 ease-out"
                           :style="{ width: `${generationProgress}%` }"
                         />
                       </div>
@@ -177,7 +177,7 @@
                       />
                       <div
                         v-else
-                        class="flex min-w-0 flex-1 items-center gap-2 text-xs text-neutral-500"
+                        class="flex min-w-0 flex-1 items-center gap-2 text-xs text-(--opn-muted)"
                       >
                         <Icon
                           name="i-heroicons-adjustments-horizontal"
@@ -207,11 +207,11 @@
                     <button
                       type="button"
                       data-testid="form-base-simple-contact"
-                      class="group flex h-full min-h-28 w-full flex-col justify-between rounded-lg border border-neutral-200 bg-white p-4 text-left shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-[0_18px_42px_-30px_rgba(37,99,235,0.38)] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/30"
+                      class="group flex h-full min-h-28 w-full flex-col justify-between rounded-md border border-(--opn-line) bg-(--opn-surface) p-4 text-left transition-colors hover:border-neutral-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--opn-ink)"
                       @click="startFromContactForm"
                     >
                       <div class="flex items-center justify-between gap-3">
-                        <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+                        <span class="grid size-9 place-items-center rounded-md border border-(--opn-line) bg-(--opn-paper) text-(--opn-ink)">
                           <UIcon
                             name="i-heroicons-envelope"
                             class="h-5 w-5"
@@ -219,20 +219,20 @@
                         </span>
                         <Icon
                           name="i-heroicons-arrow-right"
-                          class="h-4 w-4 text-neutral-300 transition group-hover:translate-x-0.5 group-hover:text-blue-500"
+                          class="h-4 w-4 text-(--opn-muted) transition group-hover:translate-x-0.5 group-hover:text-(--opn-ink)"
                         />
                       </div>
                       <div class="mt-4">
-                        <p class="font-semibold text-neutral-950">Contact form</p>
-                        <p class="mt-1 text-xs leading-5 text-neutral-500">Name, email, and message.</p>
+                        <p class="font-semibold text-(--opn-ink)">Contact form</p>
+                        <p class="mt-1 text-xs leading-5 text-(--opn-muted)">Name, email, and message.</p>
                       </div>
                     </button>
                   </TrackClick>
                   <div
-                    class="group relative flex min-h-28 flex-col justify-between rounded-lg border border-neutral-200 bg-white p-4 text-left shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-amber-200 hover:shadow-[0_18px_42px_-30px_rgba(245,158,11,0.38)]"
+                    class="group relative flex min-h-28 flex-col justify-between rounded-md border border-(--opn-line) bg-(--opn-surface) p-4 text-left transition-colors hover:border-neutral-400"
                   >
                     <div class="flex items-center justify-between gap-3">
-                      <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-50 text-amber-600">
+                      <span class="grid size-9 place-items-center rounded-md border border-(--opn-line) bg-(--opn-paper) text-(--opn-ink)">
                         <UIcon
                           name="i-heroicons-squares-2x2"
                           class="h-5 w-5"
@@ -240,29 +240,29 @@
                       </span>
                       <Icon
                         name="i-heroicons-arrow-up-right"
-                        class="h-4 w-4 text-neutral-300 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-amber-600"
+                        class="h-4 w-4 text-(--opn-muted) transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-(--opn-ink)"
                       />
                     </div>
                     <div class="mt-4">
-                      <p class="font-semibold text-neutral-950">Templates</p>
-                      <p class="mt-1 text-xs leading-5 text-neutral-500">Browse proven starting points.</p>
+                      <p class="font-semibold text-(--opn-ink)">Templates</p>
+                      <p class="mt-1 text-xs leading-5 text-(--opn-muted)">Browse proven starting points.</p>
                     </div>
                     <TrackClick name="select_form_base" :properties="{ base: 'template' }">
                       <NuxtLink
                         :to="{ name: 'templates' }"
                         aria-label="Browse templates"
-                        class="absolute inset-0"
+                        class="absolute inset-0 rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--opn-ink)"
                       />
                     </TrackClick>
                   </div>
                   <TrackClick name="select_form_base" :properties="{ base: 'import' }">
                     <button
                       type="button"
-                      class="group flex h-full min-h-28 w-full flex-col justify-between rounded-lg border border-neutral-200 bg-white p-4 text-left shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-emerald-200 hover:shadow-[0_18px_42px_-30px_rgba(16,185,129,0.38)] focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30"
+                      class="group flex h-full min-h-28 w-full flex-col justify-between rounded-md border border-(--opn-line) bg-(--opn-surface) p-4 text-left transition-colors hover:border-neutral-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--opn-ink)"
                       @click="showImportModal = true"
                     >
                       <div class="flex items-center justify-between gap-3">
-                        <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
+                        <span class="grid size-9 place-items-center rounded-md border border-(--opn-line) bg-(--opn-paper) text-(--opn-ink)">
                           <UIcon
                             name="i-heroicons-arrow-down-tray"
                             class="h-5 w-5"
@@ -270,12 +270,12 @@
                         </span>
                         <Icon
                           name="i-heroicons-arrow-right"
-                          class="h-4 w-4 text-neutral-300 transition group-hover:translate-x-0.5 group-hover:text-emerald-600"
+                          class="h-4 w-4 text-(--opn-muted) transition group-hover:translate-x-0.5 group-hover:text-(--opn-ink)"
                         />
                       </div>
                       <div class="mt-4">
-                        <p class="font-semibold text-neutral-950">Import</p>
-                        <p class="mt-1 text-xs leading-5 text-neutral-500">{{ importSourcesLabel }}.</p>
+                        <p class="font-semibold text-(--opn-ink)">Import</p>
+                        <p class="mt-1 text-xs leading-5 text-(--opn-muted)">{{ importSourcesLabel }}.</p>
                       </div>
                     </button>
                   </TrackClick>

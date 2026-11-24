@@ -17,6 +17,8 @@
 @source inline("grid-cols-{1,2,3,4,5,6}");
 
 @theme {
+    --font-display: "euclid-circular-b", system-ui, sans-serif;
+
     --color-notion-dark: #191919;
     --color-notion-dark-light: #2e2e2e;
 
@@ -424,4 +426,30 @@ body.dark * {
 
 .crisp-client {
     pointer-events: auto;
+}
+
+
+/* Product shell colors. Public form rendering uses its own theme and layout. */
+.opn-chrome {
+    --opn-paper: #f8f8f7;
+    --opn-surface: #fff;
+    --opn-ink: #191919;
+    --opn-muted: #595959;
+    --opn-line: #e1e1de;
+    --ui-primary: var(--opn-ink);
+}
+
+:where(.dark) .opn-chrome {
+    --opn-paper: #191919;
+    --opn-surface: #222;
+    --opn-ink: #f5f5f3;
+    --opn-muted: #b3b3ae;
+    --opn-line: #373735;
+}
+
+@layer components {
+    .opn-heading {
+        font-family: var(--font-display);
+        letter-spacing: -0.055em;
+    }
 }

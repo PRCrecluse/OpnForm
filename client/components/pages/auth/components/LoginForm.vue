@@ -62,23 +62,20 @@
       </VTransition>  
 
       <!-- Remember Me & Forgot Password - only show when password field is visible -->
-      <div v-if="showPasswordField" class="relative flex items-center mt-1.5">
+      <div v-if="showPasswordField" class="mt-1.5 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 pb-2">
         <CheckboxInput
-          class="w-full md:w-1/2"
           name="remember"
           size="small"
           label="Remember me"
         />
 
-        <div class="w-full md:w-1/2 text-right">
-          <a
-            href="#"
-            class="text-xs hover:underline text-neutral-500 sm:text-sm hover:text-neutral-700"
-            @click.prevent="showForgotModal = true"
-          >
-            Forgot your password?
-          </a>
-        </div>
+        <button
+          type="button"
+          class="text-sm text-muted underline-offset-4 hover:text-highlighted hover:underline"
+          @click="showForgotModal = true"
+        >
+          Forgot your password?
+        </button>
       </div>
 
       <!-- Submit Button -->
@@ -108,19 +105,19 @@
       />
       <p
         v-if="!useFeatureFlag('self_hosted')"
-        class="text-neutral-500 text-sm text-center mt-4"
+        class="mt-4 text-center text-sm text-muted"
       >
         Don't have an account?
         <a
           v-if="isQuick"
           href="#"
-          class="font-semibold ml-1"
+          class="ml-1 font-semibold text-highlighted underline-offset-4 hover:underline"
           @click.prevent="$emit('openRegister')"
         >Sign Up</a>
         <NuxtLink
           v-else
           :to="{ name: 'register' }"
-          class="font-semibold ml-1"
+          class="ml-1 font-semibold text-highlighted underline-offset-4 hover:underline"
         >
           Sign Up
         </NuxtLink>

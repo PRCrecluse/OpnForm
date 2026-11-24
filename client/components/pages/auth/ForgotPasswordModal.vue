@@ -2,7 +2,7 @@
   <!--  Forgot password modal  -->
   <UModal
     v-model:open="isOpen"
-    :ui="{ content: 'sm:max-w-lg' }"
+    :ui="{ content: 'opn-chrome rounded-lg sm:max-w-md', title: 'opn-heading text-xl' }"
     :title="isMailSent ? 'Check your email' : 'Forgot password?'"
     :description="isMailSent ? '' : 'No worries, we\'ll send you reset instructions.'"
   >

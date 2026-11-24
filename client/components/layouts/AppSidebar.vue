@@ -3,20 +3,22 @@
     <!-- Header Slot -->
     <template #header>
       <!-- Workspace Dropdown -->
-      <div class="grow">
+      <div class="min-w-0 grow">
         <WorkspaceDropdown>
           <template #default="{ workspace }">
             <button
               v-if="workspace"
               aria-label="Workspace menu"
-              class="flex items-center gap-2 p-2 rounded-md hover:bg-neutral-200 transition-colors min-w-32 text-left"
+              :title="workspace.name"
+              class="flex w-full items-center gap-1.5 rounded-md p-1.5 text-left transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800"
             >
               <WorkspaceIcon :workspace="workspace" />
               <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-neutral-800 truncate">
+                <p class="truncate font-display text-sm font-semibold text-(--opn-ink)">
                   {{ workspace.name }}
                 </p>
               </div>
+              <UIcon name="i-heroicons-chevron-up-down" class="size-3.5 shrink-0 text-(--opn-muted)" />
             </button>
           </template>
         </WorkspaceDropdown>
@@ -28,13 +30,20 @@
           <template #default="{ user }">
             <button
               aria-label="User menu"
-              class="flex items-center gap-2 p-2 rounded-md hover:bg-neutral-200 transition-colors"
+              class="flex items-center rounded-md p-1 transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800"
             >
-              <img
-                :src="user?.photo_url"
-                class="rounded-full w-6 h-6"
-                :alt="user?.name"
-              >
+              <ClientOnly>
+                <UAvatar
+                  :as="{ img: 'img' }"
+                  :src="user?.photo_url"
+                  :alt="user?.name"
+                  size="sm"
+                  aria-hidden="true"
+                />
+                <template #fallback>
+                  <UAvatar :alt="user?.name" size="sm" aria-hidden="true" />
+                </template>
+              </ClientOnly>
             </button>
           </template>
         </UserDropdown>
@@ -55,7 +64,7 @@
         <!-- Section Title (if exists) -->
         <h3 
           v-if="section.name"
-          class="text-xs font-medium text-neutral-400 tracking-wider mb-2 px-3"
+          class="mb-2 px-2.5 text-xs font-medium text-(--opn-muted)"
         >
           {{ section.name }}
         </h3>
@@ -63,6 +72,7 @@
         <!-- Section Items -->
         <NavigationList
           :items="section.items"
+          button-class="w-full justify-start rounded-md px-2.5 py-2"
           tracking-name="sidebar_nav_click"
           :tracking-properties="(item) => ({ label: item.label })"
           @item-click="handleItemClick"
@@ -108,7 +118,7 @@ const navigationSections = computed(() => [
         to: { name: 'forms-create' },
         active: isActiveRoute('forms-create'),
         color: 'primary',
-        variant: 'ghost',
+        variant: 'solid',
         kbd: ['N'],
       }),
       createNavItem({

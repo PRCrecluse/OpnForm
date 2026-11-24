@@ -37,30 +37,27 @@ export const useSharedNavigation = () => {
       ...item
     }
     
-    // Add custom classes to darken ghost/soft variants for better visibility on neutral-100 background
     const customClasses = ['group']
     
     // For ghost variant (default), darken hover state
     if (baseItem.variant === 'ghost' && baseItem.color === 'neutral') {
-      customClasses.push('hover:bg-neutral-200/80')
+      customClasses.push('hover:bg-neutral-100 dark:hover:bg-neutral-800')
       baseItem.ui = {
         ...baseItem.ui,
-        leadingIcon: 'text-neutral-400 group-hover:text-neutral-500'
+        leadingIcon: 'text-(--opn-muted)'
       }
     }
     
-    // For soft variant (active state), darken background
     if (baseItem.active && baseItem.activeVariant === 'soft' && baseItem.color === 'neutral') {
-      customClasses.push('bg-neutral-200/90 text-neutral-800')
+      customClasses.push('bg-neutral-100 text-(--opn-ink) dark:bg-neutral-800')
     }
     
-    // For primary color buttons, ensure good contrast
     if (baseItem.color === 'primary') {
       if (baseItem.variant === 'ghost') {
-        customClasses.push('hover:bg-primary-100/80')
+        customClasses.push('hover:bg-neutral-100 dark:hover:bg-neutral-800')
       }
       if (baseItem.active && baseItem.activeVariant === 'soft') {
-        customClasses.push('data-[active=true]:bg-primary-100/90')
+        customClasses.push('data-[active=true]:bg-neutral-100 dark:data-[active=true]:bg-neutral-800')
       }
     }
     

@@ -1,50 +1,49 @@
 <template>
-  <div class="px-8 lg:px-12">
+  <div class="px-5 sm:px-8 lg:px-12">
     <div
-      class="mx-auto w-full max-w-336 rounded-[32px] bg-linear-to-br from-neutral-950 via-neutral-900 to-neutral-950 shadow-2xl overflow-hidden"
+      class="mx-auto w-full max-w-336 rounded-lg border border-neutral-800 bg-[#191919] overflow-hidden"
     >
       <div
-        class="grid xl:grid-cols-2 gap-12 md:gap-16 items-center py-8 md:py-10 lg:py-14 xl:py-24 px-8 md:px-10 lg:px-14 xl:px-35"
+        class="grid lg:grid-cols-2 gap-8 md:gap-12 items-center p-5 sm:p-8 lg:p-12"
       >
         <div class="max-w-124">
           <div
-            class="text-blue-400 text-base tracking-[-1.1%] font-medium leading-7"
+            class="text-sm font-medium text-neutral-300"
           >
             Integrations
           </div>
           <h3
-            class="my-4 text-4xl sm:text-5xl font-semibold text-white tracking-[-1%] leading-14"
+            class="opn-heading my-4 text-3xl font-semibold text-white sm:text-5xl"
           >
             Connect OpnForm to your workflow.
           </h3>
           <p
-            class="text-base tracking-[-1.1%] font-medium leading-7 text-gray-400"
+            class="text-base tracking-[-1.1%] font-medium leading-7 text-neutral-300"
           >
             Send responses instantly to your tools. Automate notifications. Sync
             data across your stack with one click.
           </p>
 
-          <div class="mt-12">
+          <div class="mt-7">
             <UButton
               :to="{ name: 'integrations' }"
               label="Explore All Integrations"
               trailing-icon="i-heroicons-arrow-up-right-20-solid"
-              class="pl-4 pr-3.5 py-2.5 rounded-[12px] text-base leading-7 tracking-[-1.1%] font-medium"
+              class="min-h-11 rounded-md bg-white px-4 text-neutral-900 hover:bg-neutral-200"
             />
           </div>
         </div>
 
         <div class="flex justify-center xl:justify-end">
-          <div class="grid grid-cols-5 gap-4">
+          <div class="grid w-full max-w-sm grid-cols-5 gap-2 sm:gap-3">
             <div
               v-for="app in integrationApps"
-              :key="app.icon"
-              class="h-14 sm:h-22 w-14 sm:w-22 rounded-[24px] bg-white/5 ring-1 ring-white/10 flex items-center justify-center backdrop-blur-sm"
+              :key="app"
+              class="grid aspect-square place-items-center rounded-md border border-white/15 bg-white/5"
             >
               <UIcon
-                :name="app.icon"
-                class="h-9 sm:h-12 w-9 sm:w-12"
-                :class="app.iconClass"
+                :name="app"
+                class="size-5 text-neutral-200 sm:size-7"
               />
             </div>
           </div>
@@ -56,23 +55,20 @@
 
 <script setup>
 const integrationApps = [
-  { icon: "i-simple-icons-zendesk", iconClass: "text-[#ffffff]" },
-
-  { icon: "heroicons:envelope-20-solid", iconClass: "text-[#3B82F6]" },
-  { icon: "ic:baseline-discord", iconClass: "text-[#5865F2]" },
-  { icon: "mdi:telegram", iconClass: "text-[#27A7E7]" },
-  { icon: "material-symbols:webhook", iconClass: "text-[#0061FF]" },
-  { icon: "i-simple-icons-zapier", iconClass: "text-[#FF4A00]" },
-
-  { icon: "simple-icons:n8n", iconClass: "text-[#EA4B71]" },
-  { icon: "opnform:activepieces", iconClass: "text-[#6366F1]" },
-  { icon: "mdi:google-spreadsheet", iconClass: "text-[#34A853]" },
-  { icon: "i-simple-icons-zoom", iconClass: "text-[#2D8CFF]" },
-  { icon: "i-simple-icons-linear", iconClass: "text-[#5E6AD2]" },
-
-  { icon: "i-simple-icons-evernote", iconClass: "text-[#00A82D]" },
-  { icon: "i-simple-icons-notion", iconClass: "text-white" },
-  { icon: "i-simple-icons-airtable", iconClass: "text-[#18BFFF]" },
-  { icon: "i-simple-icons-meta", iconClass: "text-[#0668E1]" },
+  "i-simple-icons-zendesk",
+  "heroicons:envelope-20-solid",
+  "ic:baseline-discord",
+  "mdi:telegram",
+  "material-symbols:webhook",
+  "i-simple-icons-zapier",
+  "simple-icons:n8n",
+  "opnform:activepieces",
+  "mdi:google-spreadsheet",
+  "i-simple-icons-zoom",
+  "i-simple-icons-linear",
+  "i-simple-icons-evernote",
+  "i-simple-icons-notion",
+  "i-simple-icons-airtable",
+  "i-simple-icons-meta",
 ]
 </script>

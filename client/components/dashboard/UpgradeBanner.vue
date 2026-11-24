@@ -1,10 +1,10 @@
 <template>
   <UAlert
     v-if="showBanner"
-    class="mt-8 p-4"
+    class="mt-6 border border-(--opn-line) bg-(--opn-surface) p-4"
     icon="i-heroicons-sparkles-solid"
-    color="primary"
-    variant="subtle"
+    color="neutral"
+    variant="outline"
     title="Discover our Pro plan"
     description="Remove OpnForm branding, customize forms further, use your custom domain, integrate with your favorite tools, invite users, and more!"
     :actions="[

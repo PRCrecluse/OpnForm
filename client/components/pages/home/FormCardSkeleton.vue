@@ -1,12 +1,13 @@
 <template>
-  <div class="p-4 flex gap-2 group items-center relative border rounded-lg shadow-xs">
+  <div class="flex items-center gap-2 px-3 py-3 sm:gap-4 sm:px-4">
     <!-- Title Skeleton -->
-    <div class="flex-grow items-center truncate relative">
+    <div class="flex min-w-0 grow items-center gap-2.5">
+      <USkeleton class="size-8 shrink-0 rounded-md" />
       <USkeleton class="h-5 w-2/5" />
     </div>
     
     <!-- Stats and Menu Skeleton -->
-    <div class="flex items-center gap-4 relative text-sm">
+    <div class="flex items-center gap-2 text-sm sm:gap-4">
       <!-- Last Updated Skeleton -->
       <USkeleton class="h-4 w-24 hidden md:inline" />
       <USkeleton class="h-4 w-2 hidden md:inline" />
@@ -27,4 +28,4 @@
       <USkeleton class="h-8 w-8" />
     </div>
   </div>
-</template> 
+</template>

@@ -12,19 +12,17 @@
     ref="parent"
     :class="{
       'fixed inset-8 z-50 !flex': isExpanded,
-      'bg-neutral-50 dark:bg-notion-dark-light hidden md:flex flex-grow min-h-0 p-4 flex-col items-center shadow-inner': !isExpanded
+      'editor-preview-canvas hidden min-h-0 grow flex-col items-center bg-neutral-50 p-3 md:flex lg:p-5 dark:bg-notion-dark-light': !isExpanded
     }"
   >
     <div 
-      class="border rounded-lg bg-white dark:bg-notion-dark w-full grow shadow-xs transition-all overflow-hidden flex flex-col min-h-0"
+      class="flex min-h-0 w-full grow flex-col overflow-hidden rounded-lg border border-neutral-200 bg-white shadow-xs dark:border-neutral-700 dark:bg-notion-dark"
       :class="{ 'h-full': isExpanded }"
     >
-      <div class="w-full bg-white dark:bg-neutral-950 border-b border-neutral-300 dark:border-blue-900 dark:border-neutral-700 rounded-t-lg p-1.5 pl-4 pr-1.5 flex items-center gap-x-1.5">
-        <div class="bg-red-500 rounded-full w-2.5 h-2.5" />
-        <div class="bg-yellow-500 rounded-full w-2.5 h-2.5" />
-        <div class="bg-green-500 rounded-full w-2.5 h-2.5" />
-        <p class="text-sm text-neutral-500/70 text-sm ml-4 select-none">
-          Form Preview
+      <div class="opn-chrome flex min-h-11 w-full items-center gap-2 border-b border-(--opn-line) bg-(--opn-surface) px-3">
+        <UIcon name="i-heroicons-computer-desktop" class="size-4 text-(--opn-muted)" aria-hidden="true" />
+        <p class="text-sm font-medium text-(--opn-ink)">
+          Form preview
         </p>
         <div class="flex-grow" />
         <UButton
@@ -37,21 +35,18 @@
         >
           Re-start
         </UButton>
-        <TrackClick
-            name="form_editor_toggle_expand"
-            :properties="{toggle: !isExpanded}"
-          >
-        <UTooltip arrow :text="isExpanded ? 'Collapse' : 'Expand'">
-         
+        <TrackClick name="form_editor_toggle_expand" :properties="{ toggle: !isExpanded }">
+          <UTooltip arrow :text="isExpanded ? 'Collapse preview' : 'Expand preview'">
             <UButton
               :icon="isExpanded ? 'i-heroicons-arrows-pointing-in' : 'i-heroicons-arrows-pointing-out'"
+              :aria-label="isExpanded ? 'Collapse preview' : 'Expand preview'"
               color="neutral"
               variant="outline"
               size="xs"
               @click="toggleExpand"
             />
-        </UTooltip>
-      </TrackClick>
+          </UTooltip>
+        </TrackClick>
       </div>
       <div class="relative flex-grow min-h-0">
         <OverlayScrollbarsComponent
@@ -384,6 +379,11 @@ function handleDeleteCurrent() {
 </script>
 
 <style scoped>
+.editor-preview-canvas {
+  background-image: radial-gradient(circle, rgb(128 128 128 / 20%) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
 .fixed {
   transition: all 0.3s ease-in-out;
 }

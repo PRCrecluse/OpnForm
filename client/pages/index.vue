@@ -1,177 +1,77 @@
 <template>
-  <SelfHostedWelcome v-if="isSelfHosted" />
+  <LazySelfHostedWelcome v-if="isSelfHosted" />
   <main v-else class="marketing-landing">
-    <section>
-      <div class="pt-8 sm:pt-16 px-8 lg:px-12 max-w-7xl mx-auto relative">
-        <div class="max-w-3xl mx-auto text-center">
-          <NuxtLink
-            :to="{ name: 'enterprise' }"
-            class="inline-flex items-center gap-2 rounded-[10px] border border-gray-100 bg-gray-100 px-2 py-0.5 text-sm transition-colors hover:bg-gray-200/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-          >
-            <span
-              class="rounded-[5px] bg-white px-1.5 py-0.5 font-semibold text-blue-600 text-[11px] leading-3 tracking-wide"
-            >
-              NEW
-            </span>
-            <span class="font-normal text-gray-600">
-              Built for Teams & Enterprises
-            </span>
-          </NuxtLink>
-          <h1
-            class="text-4xl sm:text-[56px] sm:leading-16 tracking-[-1%] font-semibold text-gray-950 my-4"
-          >
-            Beautiful forms. Unlimited responses.
-            <span class="text-blue-600 whitespace-nowrap">Full control.</span>
-          </h1>
-
-          <p
-            class="text-lg sm:text-xl leading-7 tracking-[-1.5%] sm:leading-8 font-normal text-gray-600"
-          >
-            OpnForm helps you create forms, surveys, and workflows fast, without
-            response caps or platform lock-in. Use our cloud, EU hosting, or
-            self-host when you need full ownership.
-          </p>
-
-          <div class="relative mt-8">
-            <div
-              class="flex flex-col sm:flex-row items-center justify-center gap-3"
-            >
-              <UButton
-                size="lg"
-                :to="{
-                  name: authenticated ? 'forms-create' : 'forms-create-guest',
-                }"
-                trailing-icon="i-heroicons-arrow-up-right-20-solid"
-                label="Create a free form"
-                class="pl-4 pr-3.5 py-2.5 rounded-[12px] text-base leading-7 tracking-[-1.1%] font-medium"
-              />
-              <UButton
-                v-if="useFeatureFlag('billing.enabled')"
-                size="lg"
-                variant="outline"
-                :to="{ name: 'pricing' }"
-                label="View Pricing"
-                class="px-4 py-2.5 rounded-[12px] text-base leading-7 tracking-[-1.1%] font-medium"
-              />
-            </div>
-
-            <div
-              class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm font-semibold text-neutral-600"
-            >
-              <div class="flex items-center gap-2">
-                <UIcon
-                  name="i-heroicons-building-office-2"
-                  class="h-5 w-5 text-blue-600"
-                />
-                <span
-                  class="text-base leading-7 tracking-[-1.1%] font-medium text-gray-600"
-                  >10k+ Companies</span
-                >
-              </div>
-
-              <span
-                class="hidden sm:block h-4 w-px bg-neutral-300/70"
-                aria-hidden="true"
-              ></span>
-
-              <div class="flex items-center gap-2">
-                <UIcon
-                  name="i-simple-icons-github"
-                  class="h-4 w-4 text-neutral-800"
-                />
-                <NuxtLink
-                  to="https://github.com/OpnForm/OpnForm"
-                  target="_blank"
-                  class="text-base leading-7 tracking-[-1.1%] font-medium text-gray-600"
-                  >3k+ GitHub Stars</NuxtLink
-                >
-              </div>
-
-              <span
-                class="hidden sm:block h-4 w-px bg-neutral-300/70"
-                aria-hidden="true"
-              ></span>
-
-              <NuxtLink
-                to="https://www.trustpilot.com/review/opnform.com"
-                aria-label="Read OpnForm reviews on Trustpilot"
-                target="_blank"
-                class="flex items-center gap-2"
-              >
-                <div class="flex items-center gap-1">
-                  <UIcon
-                    name="i-heroicons-star-solid"
-                    class="h-5 w-5 text-green-500"
-                  />
-                  <UIcon
-                    name="i-heroicons-star-solid"
-                    class="h-5 w-5 text-green-500"
-                  />
-                  <UIcon
-                    name="i-heroicons-star-solid"
-                    class="h-5 w-5 text-green-500"
-                  />
-                  <UIcon
-                    name="i-heroicons-star-solid"
-                    class="h-5 w-5 text-green-500"
-                  />
-                  <div class="relative h-5 w-5">
-                    <UIcon
-                      name="i-heroicons-star"
-                      class="absolute inset-0 h-5 w-5 text-green-500"
-                    />
-                    <div class="absolute inset-y-0 left-0 w-1/2 overflow-hidden">
-                      <UIcon
-                        name="i-heroicons-star-solid"
-                        class="h-5 w-5 text-green-500"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </NuxtLink>
-            </div>
-          </div>
+    <section class="landing-frame overflow-hidden text-center">
+      <div class="relative z-10 mx-auto max-w-3xl px-5 pb-7 pt-14 sm:pb-8 sm:pt-20">
+        <h1 class="opn-heading text-(--opn-ink) text-[clamp(2.55rem,5.3vw,4.5rem)] leading-[0.99] font-semibold text-balance">
+          Beautiful forms.<br />
+          Unlimited responses.
+        </h1>
+        <p class="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-(--opn-muted) sm:text-lg">
+          Create forms, surveys, and workflows with OpnForm. Collect as many responses as you need in the cloud or on your own infrastructure.
+        </p>
+        <div class="mt-6 flex flex-wrap items-center justify-center gap-2.5">
+          <UButton
+            size="lg"
+            :to="{ name: authenticated ? 'forms-create' : 'forms-create-guest' }"
+            trailing-icon="i-heroicons-arrow-up-right-20-solid"
+            label="Create a free form"
+            class="min-h-11 rounded-md px-4"
+          />
+          <UButton
+            size="lg"
+            color="neutral"
+            variant="outline"
+            to="#live-demo"
+            icon="i-heroicons-play"
+            label="Try the demo"
+            class="min-h-11 rounded-md px-4"
+          />
         </div>
       </div>
-      <div class="relative pt-12 pb-12 sm:pb-24 px-8 lg:px-12">
-        <div class="pointer-events-none absolute inset-0">
-          <div
-            class="pointer-events-none absolute inset-0 z-1 bg-[url('/img/pages/ai_form_builder/background-pattern.svg')] bg-cover bg-top opacity-20"
-            aria-hidden="true"
-          />
-          <div
-            class="w-full h-full bg-linear-to-b from-white from-35% via-blue-100 via-60% to-white to-85% absolute inset-0"
-          ></div>
-          <div
-            class="min-h-3/5 absolute bottom-0 left-0 right-0 bg-linear-to-b from-transparent to-white z-2"
-          ></div>
-          <div
-            class="w-[15%] min-h-full bg-linear-to-r from-[#fff8] to-transparent z-3 absolute top-0 left-0"
-          ></div>
-          <div
-            class="w-[15%] min-h-full bg-linear-to-l from-[#fff8] to-transparent z-3 absolute top-0 right-0"
-          ></div>
-        </div>
-        <LiveDemo />
+
+      <div class="hero-art relative mx-auto w-full max-w-5xl" aria-hidden="true">
+        <img
+          src="/img/pages/welcome/form-workflow.webp"
+          alt=""
+          width="1440"
+          height="614"
+          fetchpriority="high"
+          decoding="async"
+          class="block h-auto w-full"
+        />
       </div>
     </section>
 
-    <TrustedTeams />
+    <TrustedTeams class="landing-frame" />
 
-    <Features />
+    <section id="live-demo" class="landing-frame scroll-mt-5 px-4 py-12 sm:px-8 sm:py-20" aria-labelledby="live-demo-title">
+      <div class="mx-auto mb-8 flex max-w-266 flex-wrap items-end justify-between gap-3">
+        <h2 id="live-demo-title" class="opn-heading text-(--opn-ink) text-3xl sm:text-5xl">
+          Try a live form
+        </h2>
+        <NuxtLink
+          :to="{ name: 'templates' }"
+          class="inline-flex items-center gap-1.5 text-sm font-medium text-(--opn-ink) underline-offset-4 hover:underline"
+        >
+          Browse templates
+          <UIcon name="i-heroicons-arrow-up-right-20-solid" class="size-4" />
+        </NuxtLink>
+      </div>
+      <LazyLiveDemo variant="home" />
+    </section>
 
-    <MoreFeatures />
+    <LazyFeatures class="landing-frame" />
 
-    <!-- <AiFeature class="pb-8" /> -->
+    <div class="landing-frame">
+      <LazyMoreFeatures />
+    </div>
 
-    <div class="pt-12 sm:pt-16"><OpenFormFooter /></div>
+    <LazyOpenFormFooter />
   </main>
 </template>
 
 <script setup>
-import LiveDemo from "~/components/pages/welcome/LiveDemo.vue"
-import Features from "~/components/pages/welcome/Features.vue"
-import MoreFeatures from "../components/pages/welcome/MoreFeatures.vue"
 import { useIsAuthenticated } from "~/composables/useIsAuthenticated.js"
 
 definePageMeta({
@@ -179,7 +79,6 @@ definePageMeta({
   middleware: ["root-redirect"],
 })
 
-useHead({ link: [{ rel: 'preload', href: '/img/pages/ai_form_builder/background-pattern.svg', as: 'image', fetchpriority: 'high' }] })
 
 const { isAuthenticated: authenticated } = useIsAuthenticated()
 const featureFlags = useState('featureFlags', () => ({}))
@@ -195,29 +94,22 @@ useOpnSeoMeta({
 })
 </script>
 
-<style lang="scss" scoped>
-.marketing-landing :deep(.bg-primary) {
-  background-color: #2563eb;
-}
-.marketing-landing :deep(.hover\:bg-primary\/75:hover) {
-  background-color: #1d4ed8;
-}
-
-.customer-logo-container {
-  max-width: 130px;
-  width: 100%;
+<style scoped>
+.landing-frame {
+  width: min(calc(100% - 2rem), 83rem);
+  margin-inline: auto;
+  border-inline: 1px solid var(--opn-line);
+  border-bottom: 1px solid var(--opn-line);
 }
 
-.ticks {
-  color: #2563eb;
+.hero-art img {
+  mix-blend-mode: multiply;
+  mask-image: radial-gradient(ellipse 78% 80%, #000 45%, transparent 100%);
 }
 
-@media (width >= 48rem) {
-  #macbook-video {
-    position: absolute;
-    max-width: 84.8% !important;
-    right: 0px;
-    top: 6.8%;
-  }
+:global(.dark) .hero-art img {
+  mix-blend-mode: normal;
+  filter: invert(0.91);
+  mask-image: radial-gradient(ellipse 75% 70%, #000 42%, transparent 100%);
 }
 </style>

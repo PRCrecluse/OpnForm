@@ -28,6 +28,7 @@ vi.mock('#imports', async (importOriginal) => {
     }),
     useBillingUpsell: () => ({
       getPlanPrice: () => 99,
+      getBilledPlanTotal: (_plan: string, yearly: boolean) => yearly ? 1188 : 99,
       userIsSubscribed: vue.ref(false),
       currentUserTier: vue.ref('free'),
       tierMeetsRequirement: (plan: string, requiredPlan: string) => plan === requiredPlan,
@@ -37,6 +38,7 @@ vi.mock('#imports', async (importOriginal) => {
       startCheckout: mocks.stripeCheckout,
       isLoading: vue.ref(false),
       isPlanLoading: () => false,
+      canStartCheckout: () => true,
     }),
     useRuntimeConfig: () => ({
       public: {
@@ -74,6 +76,7 @@ vi.mock('~/composables/useBillingUpsell.js', async () => {
   return {
     useBillingUpsell: () => ({
       getPlanPrice: () => 99,
+      getBilledPlanTotal: (_plan: string, yearly: boolean) => yearly ? 1188 : 99,
       userIsSubscribed: vue.ref(false),
       currentUserTier: vue.ref('free'),
       tierMeetsRequirement: (plan: string, requiredPlan: string) => plan === requiredPlan,
@@ -94,6 +97,7 @@ vi.mock('~/composables/useStripeCheckout.js', async () => {
       startCheckout: mocks.stripeCheckout,
       isLoading: vue.ref(false),
       isPlanLoading: () => false,
+      canStartCheckout: () => true,
     }),
   }
 })
